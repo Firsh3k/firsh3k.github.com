@@ -21,7 +21,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,p,blockquote,th,t
 /* @end */
 
 body {
-	font-family: Palatino, georgia, "times new roman", serif;
+	font-family:Palatino, georgia, "times new roman", serif; 
 	background-color: whitesmoke;
 	background-position: center -18em;
 	background-repeat: repeat-x; 
@@ -45,7 +45,7 @@ h1,h2,h3,h4 {
 	font-size:1.5em; 
 	font-weight: normal; 
 	clear: left; 	
-	font-family: 'lucida grande', sans-serif; 
+	font-family: Palatino, georgia, serif, "times new roman";
 }
 h1 { margin-bottom: 1em; }
 h2 {
