@@ -6,7 +6,7 @@ tagline: Supporting tagline HS
 {% include JB/setup %}
 
 
-<img class='inset right' src='/images/photo.jpg' title='Mark Reid' alt='Photo of Mark Reid drinking a coffee' width='120px' />	
+<img class='inset right' src='/images/photo.jpg' width='120px' />	
 
 
 #	***Who is the Firsh?***
