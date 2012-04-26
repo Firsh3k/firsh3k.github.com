@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
@@ -14,10 +14,10 @@
 	{% endif %}
 	
 	{% if site.author.feedburner %}
-  	<link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/{{ site.author.feedburner }}" title="RSS feed" />
+	<link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/{{ site.author.feedburner }}" title="RSS feed" />
 	{% endif %}
 	{% if page.feed %}
-  	<link rel="alternate" type="application/atom+xml" href="{{ page.feed }}" title="RSS feed" />
+	<link rel="alternate" type="application/atom+xml" href="{{ page.feed }}" title="RSS feed" />
 	{% endif %}
 
    <!-- syntax highlighting CSS -->
@@ -31,33 +31,33 @@
 <div id="site">
   
   <div id="header">
-    <h1>
-    	<a href="{{ HOME_PATH }}" title="{{ site.title }}">{{ site.title }}</a>
-    	<!--<span class="byline">&larr; <a href="{{ HOME_PATH }}">{{ site.author.name }}</a></span>-->
-    </h1>
-    <ul class="nav">
-      <li><a class="home" href="{{ HOME_PATH }}">Home</a></li>
-      <li><a  href="/life/past.html">Life</a></li>
-      <li><a  href="/health/past.html">Health</a></li>
-      <li><a  href="/work/past.html">Work</a></li>
-	  <li><a  href="atom.xml">RSS</a></li>
-      <li><a  href="/info.html">About</a></li>
+	<h1>
+		<a href="{{ HOME_PATH }}" title="{{ site.title }}">{{ site.title }}</a>
+		<!--<span class="byline">&larr; <a href="{{ HOME_PATH }}">{{ site.author.name }}</a></span>-->
+	</h1>
+	<ul class="nav">
+	  <li><a class="home" href="{{ HOME_PATH }}">Home</a></li>
+	  <li><a  href="/life/past.html">Life</a></li>
+	  <li><a  href="/health/past.html">Health</a></li>
+	  <li><a  href="/work/past.html">Work</a></li>
+	  <li><a  href="/atom.xml">RSS</a></li>
+	  <li><a  href="/info.html">About</a></li>
 	  </ul>
   </div>
 
   {{ content }}
   
   <div id="footer">
-  	<address>
-  		<span class="copyright">
-  			Content by <a href="info.html">{{site.author.name}}</a> 
-  			<br/>
-  			(<a rel="licence" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Some rights reserved</a>)			
-  		</span>
-  		<span class="engine">
-  			Powered by <a href="http://github.com/mojombo/jekyll/" title="A static, minimalist CMS">Jekyll</a>
-  		</span>
-  	</address>
+	<address>
+		<span class="copyright">
+			Content by <a href="info.html">{{site.author.name}}</a> 
+			<br/>
+			(<a rel="licence" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Some rights reserved</a>)			
+		</span>
+		<span class="engine">
+			Powered by <a href="http://github.com/mojombo/jekyll/" title="A static, minimalist CMS">Jekyll</a>
+		</span>
+	</address>
   </div>
   
 </div>
