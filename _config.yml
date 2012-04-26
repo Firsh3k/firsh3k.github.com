@@ -81,7 +81,7 @@ JB :
   comments :
     provider : disqus
     disqus :
-      short_name : Firsh-Studio
+      short_name : firshstudio
     livefyre :
       site_id : 123
     intensedebate :
