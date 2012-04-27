@@ -3,3 +3,5 @@
 Try to build up this blog for fun.
 
 
+Test for fetch.
+
