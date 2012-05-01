@@ -19,9 +19,8 @@ A 20-something lives on the earth as human-being within the GFW whose figure als
 
 # ***Why this Blog exists?***
 
-You might think this blog is for tracking the life path.
-However, more deeply in thought, I hope one day, people would reminisce this place because they believe in **Life Worth Spreading**.	
-<br>Here what I'm about to divide this Blog into 3 themes which we couldn't live without them.
+You might think this blog is for tracking the life path. However, more deeply in thought, I hope one day, people would reminisce this place because they believe in **Life Worth Spreading**. Here what I'm about to divide this Blog into 3 themes which we couldn't live without them.
+	
 
 +-- {.section}
 [Life](/life/lifes.html)
