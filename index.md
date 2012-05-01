@@ -19,12 +19,14 @@ A 20-something lives on the earth as human-being within the GFW whose figure als
 
 # ***Why this Blog exists?***
 
-Nowadays people choose to use their blog to track their life path; But what I've been thinking is that **Life worth spreading** and of course Blog is the best media.	Here what I'm about to divide this Blog into 3 themes which we couldn't live without them.
+You might think this blog is for tracking the life path.</br>
+However, more deeply in thought, I hope one day, people would reminisce this place because they believe in **Life Worth Spreading**.	
+<br>Here what I'm about to divide this Blog into 3 themes which we couldn't live without them.
 
 +-- {.section}
 [Life](/life/lifes.html)
 ============
-I choose to live for fun and Here would be the mixing-pot about my life.
+I choose to live for the memory and fun so Here would be the mixing-pot about my life.
 
 <ul class="compact recent">
   {% for lifepost in site.categories.life limit:3 %}
@@ -35,7 +37,7 @@ I choose to live for fun and Here would be the mixing-pot about my life.
 +-- {.section}
 [Health](health/health.html)
 ============
-You need healthy body-system to do whateva you'd have to do and Here's you'd get to know how to arm your body.	
+You need healthy body-system to do whateva you'd have to do so Here's you'd get to know how to arm your body.	
 
 <ul class="compact recent">
   {% for healthpost in site.categories.health limit:3 %}
@@ -46,7 +48,7 @@ You need healthy body-system to do whateva you'd have to do and Here's you'd get
 +-- {.section}
 [Work](work/work.html)
 ============
-Here to share some meaningful masterpiece of my work. 
+Here's to share some meaningful masterpiece of my work. 
 
 <ul class="compact recent">
   {% for Workpost in site.categories.work limit:3 %}
