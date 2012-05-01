@@ -23,7 +23,7 @@ You might think this blog is for tracking the life path. However, more deeply in
 	
 
 +-- {.section}
-[Life](/life/lifes.html)
+[Life](/life/past.html)
 ============
 I choose to live for the memory and fun so Here would be the mixing-pot about my life.
 
@@ -34,7 +34,7 @@ I choose to live for the memory and fun so Here would be the mixing-pot about my
 </ul>
 =--
 +-- {.section}
-[Health](health/health.html)
+[Health](health/past.html)
 ============
 You need healthy body-system to do whateva you'd have to do so Here's you'd get to know how to arm your body.	
 
@@ -45,7 +45,7 @@ You need healthy body-system to do whateva you'd have to do so Here's you'd get 
 </ul>
 =--
 +-- {.section}
-[Work](work/work.html)
+[Work](work/past.html)
 ============
 Here's to share some meaningful masterpiece of my work. 
 
