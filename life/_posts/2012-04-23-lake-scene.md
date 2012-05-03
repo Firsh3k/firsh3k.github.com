@@ -3,7 +3,7 @@ layout: post
 title: "湖光春色"
 description: ""
 category: 
-tags: [Love,Travel]
+tags: []
 ---
 {% include JB/setup %}
 
