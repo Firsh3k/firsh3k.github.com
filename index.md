@@ -80,6 +80,13 @@ Here's to share some meaningful masterpiece of my work.
 <div><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="555" height="80" id="passing" > <param name="movie" value="http://www.douban.com/doushow/firsh3k/collection_latest_music_6_6_small_nologo_noself/doushow.swf" /> <param name="quality" value="high" /> <param name="scale" value="noscale"/> <param name="align" value="tl"/> <param name="wmode" value="transparent"/> <embed src="http://www.douban.com/doushow/firsh3k/collection_latest_music_6_6_small_nologo_noself/doushow.swf" wmode="transparent" quality="high" width="555" height="80" name="passing" scale="noscale" align="tl" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /> </object></div>
 =--
 
+<script type="text/javascript" src="_includes/JB/audioplayer/js/jquery.min.js"></script>
+<script type="text/javascript" src="_includes/JB/audioplayer/js/jquery.swfobject.min.js"></script>
+<script type="text/javascript" src="_includes/JB/audioplayer/js/example1.js"></script> 
+
+<a class="audio" href="_includes/JB/audioplayer/audio/reason.mp3">
+</a>
+
 
 <!--
 <div style="float:left;width:160px;">
