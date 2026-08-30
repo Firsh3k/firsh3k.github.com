@@ -93,3 +93,30 @@ promotion:
   conflict_check_before_promote: true
   eval_when_behavior_changes: true
   preserve_provenance: true
+
+evolution_tracking:
+  architecture_system_of_record: github
+  chat_role: proposal_and_collaboration_surface
+  changelog_path: CHANGELOG.md
+  evolution_log_path: 00_system/evolution/EVOLUTION-LOG.md
+  adr_directory: 00_system/evolution/
+  material_change_recording_required: true
+  material_change_trace:
+    - need_or_problem
+    - proposal
+    - architecture_decision
+    - implementation
+    - changelog
+    - evolution_log
+    - validation_or_eval
+    - current_state_and_next_gate
+  adr_required_when:
+    - context_architecture_changes
+    - routing_or_loading_semantics_change
+    - persistence_or_authority_semantics_change
+    - skill_context_boundary_changes
+    - source_of_record_strategy_changes
+    - lifecycle_or_versioning_changes
+    - high_impact_governance_changes
+    - migration_architecture_changes
+  preserve_superseded_decisions: true
