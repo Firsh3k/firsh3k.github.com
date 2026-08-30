@@ -1,0 +1,54 @@
+intake_card:
+  id: SRC-YYYYMMDD-NNN
+  status: REFERENCE
+  created_at: YYYY-MM-DD
+
+source:
+  type: article
+  title: ""
+  author: ""
+  url: ""
+  published_at: ""
+  consumed_at: ""
+  source_quality: unknown
+
+routing:
+  candidate_targets: []
+  primary_target: ""
+  related_projects: []
+  related_knowledge_domains: []
+
+insights:
+  - id: I-001
+    type: KNOWLEDGE
+    summary: ""
+    provenance: external
+    evidence_level: ""
+    freshness: ""
+    impact: low
+    overlap:
+      status: none
+      existing_context: ""
+    conflict:
+      status: none
+      existing_context: ""
+      notes: ""
+    recommendation:
+      status: REFERENCE
+      target_path: ""
+      action: retain
+      reason: ""
+
+promotion:
+  changes_active_behavior: false
+  requires_explicit_approval: false
+  requires_eval: false
+  eval_plan: ""
+  rollback_target: ""
+
+final_disposition:
+  action: pending
+  promoted_items: []
+  rejected_items: []
+  archived_items: []
+  notes: ""
