@@ -1,5 +1,44 @@
 # Personal Context OS Changelog
 
+## 2026-08-30 — System evolution governance added
+
+Status: `0.1-DRAFT`
+
+### Added
+
+- `00_system/evolution/README.md` defining how PCOS records its own architectural evolution.
+- `00_system/evolution/EVOLUTION-LOG.md` as the chronological system-transition record.
+- `00_system/evolution/ADR-0001-context-inbox-and-promotion.md` as the first Architecture Decision Record.
+- Three-layer evolution model:
+  - `CHANGELOG.md` = what changed;
+  - `EVOLUTION-LOG.md` = how the system moved from one architecture state to another;
+  - ADR = why a material architecture decision was made, what alternatives were considered, and when it should be revisited.
+
+### Changed
+
+- Material PCOS architecture changes are no longer considered fully recorded if they only exist in chat history.
+- Accepted architecture changes should be distilled into GitHub current contracts plus change/evolution/decision records.
+- Current architecture and historical reasoning are now explicitly separated: current system files describe what is true now; evolution records explain how it became true.
+
+### Governance rule
+
+For material PCOS architecture changes, maintain the traceability chain:
+
+```text
+Need / problem
+→ proposal
+→ architecture decision
+→ implementation
+→ CHANGELOG
+→ EVOLUTION-LOG
+→ validation / eval
+→ current state / next gate
+```
+
+Chat is an input and collaboration surface; GitHub is the system-of-record for accepted PCOS architecture evolution.
+
+---
+
 ## 2026-08-30 — Context Inbox architecture added
 
 Status: `0.1-DRAFT`
