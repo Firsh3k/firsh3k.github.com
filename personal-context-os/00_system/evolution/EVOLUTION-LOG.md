@@ -175,3 +175,41 @@ Prospective case accumulation during normal daily review replaces mandatory heav
 
 ### Next gate
 Accumulate comparable cases, including false positives, and review whether the heuristics add incremental information beyond the existing Market State Machine.
+
+---
+
+## E-0006 — Experience maturity becomes explicit and promotion becomes assisted
+
+**Date:** 2026-08-30  
+**Status:** ACCEPTED  
+**ADR:** `ADR-0003-experience-maturity-and-assisted-promotion.md`
+
+### Previous state
+Experience Pool items could accumulate cases and later be promoted, but there was no explicit maturity scale and promotion could depend too heavily on the user remembering when to ask for a review.
+
+### Trigger / problem
+The user needs to know which Experience items are most mature and valuable, while formal Strategy changes must still remain controlled. A mature heuristic should surface itself for review without silently acquiring trading authority.
+
+### Decision
+Adopt:
+
+`L0 External Insight → L1 Retained Experience → L2 Observed Experience → L3 Validated Experience → L4 Strategy Candidate → L5 ACTIVE Strategy`.
+
+Use a **system-proposes, user-approves** model:
+- PCOS may update evidence maturity through L1–L3 without changing execution authority;
+- PCOS proactively surfaces meaningful promotion/downgrade reviews;
+- L3 → L4 and L4 → L5 material transitions require explicit user approval;
+- Strategy activation still requires applicable TEST / RC / regression gates.
+
+### Review model
+- event-driven review during normal Skill execution when thresholds/status materially change;
+- optional low-frequency periodic maturity audit to prevent promotion-ready or contradictory items from being forgotten.
+
+### Resulting architecture
+- `00_system/experience-maturity-policy.md`;
+- maturity metadata/dashboard in project Experience Pools;
+- Context manifest registers maturity levels and review triggers;
+- Experience value ranking is explicitly separated from maturity ranking.
+
+### Next gate
+Accumulate the first real A-share Experience cases and verify that maturity updates and promotion reminders are useful without creating report noise.
