@@ -1,5 +1,36 @@
 # Personal Context OS Changelog
 
+## 2026-08-30 — Experience maturity and assisted promotion added
+
+Status: `0.1-DRAFT`
+
+### Added
+
+- `00_system/experience-maturity-policy.md` defining six Experience maturity levels:
+  - L0 External Insight;
+  - L1 Retained Experience;
+  - L2 Observed Experience;
+  - L3 Validated Experience;
+  - L4 Strategy Candidate;
+  - L5 ACTIVE Strategy.
+- `ADR-0003-experience-maturity-and-assisted-promotion.md` documenting why PCOS uses a **system-proposes, user-approves** promotion model.
+- Event-driven maturity review plus optional low-frequency periodic maturity audit.
+- Value ranking dimensions separate from maturity: decision impact, incremental value, reproducibility, applicability, false-positive cost, compatibility, and complexity.
+
+### Changed
+
+- Experience evidence maturity and Strategy authority are explicitly separated.
+- PCOS may accumulate cases and update non-authoritative maturity through L1 → L2 → L3 when objective evidence criteria are met.
+- L3 → L4 material Strategy-candidate work requires explicit user approval.
+- L4 → L5 production activation requires applicable TEST/RC/regression gates plus explicit user approval.
+- The user no longer needs to remember which Experience items are approaching promotion; PCOS should surface meaningful promotion/downgrade reviews proactively.
+
+### Governance rule
+
+`system observes and proposes → user approves material Strategy promotion`
+
+---
+
 ## 2026-08-30 — Experience Pool architecture added
 
 Status: `0.1-DRAFT`
