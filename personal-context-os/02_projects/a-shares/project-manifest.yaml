@@ -1,0 +1,72 @@
+project:
+  name: A-Share Investment Context System
+  version: 0.1-DRAFT
+  status: DRAFT
+  architecture: context-native
+
+active_strategy:
+  version: V3.4
+  status: ACTIVE
+  effective_date: 2026-08-25
+  note: Preserve the currently validated strategy as production baseline during V4.0-DRAFT evaluation.
+
+draft_skill:
+  name: review-a-shares
+  version: V4.0-DRAFT
+  status: TEST
+
+context:
+  constitution: 01_constitution/investment-constitution.md
+  strategy_root: 02_strategy/
+  market_current: 03_market_state/current.md
+  sector_root: 04_sector_context/
+  stock_root: 05_stock_context/
+  portfolio: 06_portfolio/current-holdings.md
+  journal: 07_trading_journal/
+  data: 08_data/
+  reports: 09_reports/
+  decisions: 10_decisions/
+  evals: 11_evals/
+  versions: 12_versions/
+
+routing:
+  MARKET_RADAR:
+    load:
+      - constitution-summary
+      - active-market-strategy
+      - current-market-state
+      - recent-market-history
+      - current-market-data
+  STOCK_REVIEW:
+    load:
+      - constitution-summary
+      - active-stock-strategy
+      - active-entry-strategies
+      - current-market-state
+      - target-stock-current-state
+      - target-sector-context
+      - target-stock-recent-history
+  TOTAL_REVIEW:
+    load:
+      - current-market-radar-output
+      - current-stock-review-output
+      - portfolio-current
+      - active-portfolio-rules
+  TOP3:
+    load:
+      - current-stock-review-output
+      - current-market-state
+      - active-top3-ranking-strategy
+  SELL_CHECK:
+    load:
+      - active-exit-strategy
+      - current-market-state
+      - target-stock-current-state
+      - target-stock-recent-history
+      - portfolio-current
+
+persistence:
+  daily_analysis_does_not_imply_external_sync: true
+  google_sheet_sync: explicit_user_instruction_only
+  preserve_dated_snapshots: true
+  update_current_from_delta: true
