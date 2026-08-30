@@ -130,3 +130,48 @@ Material architecture decisions originating in chat are distilled into GitHub re
 
 ### Next gate
 Apply this recording discipline to every subsequent material PCOS architecture or governance change.
+
+---
+
+## E-0005 — Experience Pool separates useful heuristics from formal trading rules
+
+**Date:** 2026-08-30  
+**Status:** ACCEPTED / PROSPECTIVE VALIDATION  
+**Reference:** A-share PCOS project
+
+### Previous state
+PCOS could stage external insights in Inbox and either observe, reject, or promote them toward authoritative Context, but there was no explicit project layer for useful market experience that should influence what to watch without becoming a formal trading gate.
+
+### Trigger / problem
+Some A-share observations are valuable experience-of-market rather than fully quantified laws. Requiring a heavy historical backtest before using them as observation lenses would create unnecessary friction, while directly promoting them into trading rules would overstate their evidence.
+
+### Decision
+Add a project-level **Experience Pool** with explicit non-gating authority and lightweight prospective validation.
+
+### Resulting architecture
+
+`Inbox insight → Experience Pool → daily observation trigger → T+1 / T+3 / T+5 case logging → accumulated evidence → later promotion review`
+
+The A-share reference implementation adds:
+- `09_experience_pool/market-observation-experience.md`;
+- `11_evals/experience-observation-log.md`;
+- Market Radar routing through the experience pool.
+
+### Governance
+Experience heuristics may raise attention, trigger scenarios and create validation cases, but cannot independently:
+- change the canonical Market Gate;
+- authorize new risk;
+- upgrade a stock into a trade candidate;
+- override sell/execution rules.
+
+### Initial experience rules
+- capital/funding stalemate as a fragile-equilibrium watch;
+- volatility compression as a non-directional range-expansion watch;
+- up/down volume asymmetry;
+- positioning × sentiment as auxiliary contrarian evidence.
+
+### Validation
+Prospective case accumulation during normal daily review replaces mandatory heavy backtesting at intake stage. Formal rule promotion remains a later evidence-based decision.
+
+### Next gate
+Accumulate comparable cases, including false positives, and review whether the heuristics add incremental information beyond the existing Market State Machine.
