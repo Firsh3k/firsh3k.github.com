@@ -21,6 +21,7 @@ active_context:
   constitution: ../01_constitution/investment-constitution.md
   market_state_machine: ../02_strategy/market-state-machine.md
   market_radar: ../02_strategy/market-radar.md
+  experience_pool: ../09_experience_pool/market-observation-experience.md
   stock_review: ../02_strategy/stock-review.md
   trade_models: ../02_strategy/trade-models.md
   exit_sell_review: ../02_strategy/exit-and-sell-review.md
@@ -48,6 +49,8 @@ validation:
   installed_skill_runtime: NOT_RUN
   monday_transition: ../11_evals/monday-2026-08-31-state-transition.yaml
   monday_transition_status: WAITING_FOR_REAL_CLOSE_DATA
+  experience_observation_log: ../11_evals/experience-observation-log.md
+  experience_pool_validation: PROSPECTIVE_LIGHTWEIGHT
   persistence_idempotency: NOT_RUN
   rollback_verification: NOT_RUN
 
