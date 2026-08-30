@@ -7,10 +7,48 @@ routing:
   default_mode: lazy-load
   max_scope: task-relevant-only
   prefer_current_state: true
+  inbox_default_authority: non_authoritative
   include_history_when:
     - user asks for comparison or recall
     - current decision depends on prior state
     - regression or audit is requested
+  include_inbox_when:
+    - user asks to ingest or evaluate external material
+    - user asks to promote a candidate insight
+    - an eval or research task explicitly depends on an inbox item
+
+intake:
+  trigger_phrases:
+    - 喂给 PCOS
+    - add to PCOS Context Inbox
+    - evaluate for PCOS
+  default_flow:
+    - source_capture
+    - insight_extraction
+    - classification
+    - routing
+    - deduplication
+    - conflict_check
+    - evidence_assessment
+    - impact_assessment
+    - intake_card
+    - promotion_recommendation
+  insight_types:
+    - FACT
+    - KNOWLEDGE
+    - FRAMEWORK
+    - LESSON
+    - HYPOTHESIS
+    - PRINCIPLE_CANDIDATE
+    - STRATEGY_CANDIDATE
+  statuses:
+    - REFERENCE
+    - OBSERVE
+    - ACTIVE_CANDIDATE
+    - ACTIVE
+    - REJECTED
+    - ARCHIVED
+  high_impact_direct_activation: forbidden
 
 project_contract:
   required:
@@ -36,11 +74,22 @@ evidence_levels:
 version_lifecycle:
   - DRAFT
   - TEST
+  - RC
   - ACTIVE
   - DEPRECATED
   - ARCHIVED
 
 persistence:
   default: no_write_without_policy
+  inbox_staging_allowed: true
+  inbox_write_does_not_imply_promotion: true
   log_state_delta: true
   preserve_history: true
+
+promotion:
+  default: analysis_first_promotion_second
+  material_active_changes_require_explicit_promotion: true
+  deduplicate_before_add: true
+  conflict_check_before_promote: true
+  eval_when_behavior_changes: true
+  preserve_provenance: true
