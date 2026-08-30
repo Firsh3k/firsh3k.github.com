@@ -1,0 +1,31 @@
+project:
+  name: PROJECT_NAME
+  version: 0.1-DRAFT
+  status: DRAFT
+  owner_scope: personal
+
+context:
+  constitution: context/constitution.md
+  current_state: state/current.md
+  decisions: decisions/CHANGELOG.md
+  lessons: lessons/
+  corpus: corpus/
+  catalog: catalog/
+
+skills:
+  active: []
+  draft: []
+
+routing:
+  default_history_window: recent-relevant
+  load_full_history: false
+  load_corpus_on_demand: true
+
+persistence:
+  write_current_state: by_policy
+  append_history: true
+  external_sync: explicit_only
+
+metadata:
+  created_at: YYYY-MM-DD
+  updated_at: YYYY-MM-DD
