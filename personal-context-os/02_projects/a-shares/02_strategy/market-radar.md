@@ -24,7 +24,9 @@ Market Radar decides **where to look**. It does not promote a stock to a trading
 - sector/theme 1/3/5-day relative strength where reproducible;
 - leader/core/medium-capacity/high-beta structure;
 - current stock-pool coverage;
-- prior canonical Market State for delta comparison only.
+- prior canonical Market State for delta comparison only;
+- market-observation experience pool;
+- when reproducible and available: multi-channel capital-flow context, index-option implied volatility / realized-volatility compression, and up-day vs down-day turnover asymmetry.
 
 ## Execution
 
@@ -43,6 +45,24 @@ Examples:
 - full-A stable but average-price sharply weaker → high-price/high-beta concentrated de-rating risk.
 
 Do not upgrade broad attack confidence unless multiple layers improve together.
+
+### B2. Experience-pool observation overlay
+Load `../09_experience_pool/market-observation-experience.md` and check whether any non-gating heuristic is materially present.
+
+Current observation overlays include:
+- `E001 CAPITAL_EQUILIBRIUM_WATCH` — several important funding channels are weak or mutually offsetting, suggesting a fragile balance / direction-selection watch;
+- `E002 VOLATILITY_COMPRESSION_WATCH` — implied and/or realized volatility compresses toward a recent low regime;
+- `E003 VOLUME_ASYMMETRY_WATCH` — repeated low-volume rebounds coexist with higher-volume selloffs, or the reverse;
+- `E004 POSITIONING_SENTIMENT_WATCH` — crowd positioning and sentiment are unusually one-sided, with sample-bias disclosure.
+
+Rules for this overlay:
+- it may raise attention and create scenarios;
+- it may trigger a prospective validation case;
+- it does **not** independently change the canonical Market Gate color;
+- it does **not** independently authorize new risk;
+- it does **not** predict direction unless the existing Market State evidence confirms direction.
+
+If E001/E002/E003/E004 is materially triggered, record the case in `../11_evals/experience-observation-log.md` and later fill T+1 / T+3 / T+5 outcomes when available.
 
 ### C. Sector radar
 For important sectors/themes assess:
@@ -98,13 +118,14 @@ Required report sections:
 2. V4/V3.4-compatible Market State card;
 3. index / full-A / average-price diagnosis;
 4. volume, breadth and risk appetite;
-5. style migration;
-6. sector ranking and lifecycle/temperature;
-7. leader thermometer;
-8. stock-pool mismatch;
-9. candidate collector and missing-data tasks;
-10. next-day upgrade / maintain / downgrade scenario;
-11. data/formula/source audit.
+5. experience-pool regime watch: capital equilibrium / volatility compression / volume asymmetry / positioning-sentiment, with `triggered / not triggered / N/A`;
+6. style migration;
+7. sector ranking and lifecycle/temperature;
+8. leader thermometer;
+9. stock-pool mismatch;
+10. candidate collector and missing-data tasks;
+11. next-day upgrade / maintain / downgrade scenario;
+12. data/formula/source audit.
 
 ## Hard boundaries
 
@@ -113,3 +134,4 @@ Required report sections:
 - Do not substitute a look-alike index code for a missing proprietary series.
 - Supplier differences in breadth/limit-up counts must be disclosed, not silently averaged.
 - If no sector has persistent evidence, explicitly say there is no S-level main line.
+- Experience-pool heuristics are observation overlays only. They cannot silently become formal trading gates without a later explicit promotion decision and evidence review.
