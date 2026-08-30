@@ -1,0 +1,101 @@
+eval_id: monday-2026-08-31-state-transition
+version: 1
+status: WAITING_FOR_REAL_CLOSE_DATA
+purpose: "Verify that V4 carries Friday state as prior context but rebuilds Monday current state from Monday evidence, without copying Friday conclusions."
+
+prior_state:
+  date: 2026-08-28
+  gate: "🟠高波动轮动"
+  R: -7.5
+  A: 13.3
+  D: 20.8
+
+run_date: 2026-08-31
+required_state: close_confirmed
+production_write_during_test: false
+
+transition_candidates:
+  UPGRADE_TO_YELLOW:
+    evidence_targets:
+      ths_full_A:
+        threshold: ">=1891.71"
+        require_expansion: true
+      average_stock_price:
+        threshold: ">=28.60"
+      shanghai:
+        threshold: ">=3983.6 close and attacks 4000"
+      turnover_trillion_RMB:
+        threshold: ">=2.20"
+      up_breadth_pct:
+        threshold: ">=60"
+      sector_persistence:
+        rule: "at least two of agriculture / chemicals / AI-compute show real divergence then support/return"
+      R:
+        threshold: ">=0"
+      A:
+        threshold: ">=15"
+    semantics: "These are upgrade conditions, not a prediction and not necessarily a mechanical all-or-nothing formula if evidence conflicts; conflicts must be surfaced."
+
+  MAINTAIN_ORANGE:
+    evidence_targets:
+      ths_full_A:
+        supports:
+          - 1862.37
+          - 1859.76
+      average_stock_price:
+        supports:
+          - 28.34
+          - 28.09
+      shanghai:
+        supports:
+          - 3941.5
+          - 3916.1
+      CSI500:
+        support: 7876.7
+      CN2000:
+        support: 9908.6
+      turnover_trillion_RMB:
+        threshold: ">=1.90"
+      qualitative:
+        - "tech does not continue broadening selloff"
+        - "agriculture does not broadly retreat"
+
+  DOWNGRADE_TO_RED:
+    numeric_any_two:
+      - "THS full-A <1851.83"
+      - "average stock price <27.90"
+      - "Shanghai <3916.1"
+      - "CSI500 <7876.7"
+      - "CSI1000 <7619.9"
+      - "CN2000 <9908.6"
+    or_severe_breadth:
+      - "up/red breadth <40%"
+      - "meaningful limit-down expansion"
+      - "agriculture and AI/compute both lose support"
+
+must_verify_on_monday:
+  - Monday current-day screenshots/data are used; Friday charts are not used as substitutes.
+  - Monday index technical scores are recomputed from Monday data using the same version/formulas.
+  - Monday R/A/D are newly computed and all downstream reports reuse exactly that same object.
+  - Friday theme labels are treated as prior state, not as Monday fact.
+  - Stock review uses Monday Market State and Monday stock evidence.
+  - P0 quantities use actual Monday-confirmed holdings/transactions rather than Friday assumptions if trades occurred.
+  - Any Friday pending/data-gap items remain pending until Monday evidence actually resolves them.
+  - No production write occurs in V4 TEST mode unless explicitly authorized.
+
+pass_criteria:
+  - valid_state_transition_reasoning
+  - no_stale_state_copy
+  - same_day_state_reuse
+  - no_rule_loss_vs_v3_4
+  - no_unverified_fact_promotion
+  - correct_P0_transaction_reconciliation
+  - output_contract_complete
+
+promotion_if_pass:
+  next_status: RC1
+  not_yet_ACTIVE: true
+  additional_RC_checks:
+    - market_radar_stock_review_daily_review_cross_consistency
+    - persistence_idempotency
+    - rollback_path
