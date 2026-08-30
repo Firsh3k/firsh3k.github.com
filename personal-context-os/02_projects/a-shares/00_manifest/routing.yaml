@@ -1,0 +1,131 @@
+router: a-share-context-router
+version: 4.0-draft.1
+status: TEST
+
+base_load:
+  always:
+    - CURRENT.yaml
+    - source-priority.yaml
+  never_load_by_default:
+    - all_stock_histories
+    - all_historical_daily_reports
+    - deprecated_strategy_versions
+    - all_sell_cases
+    - all_sector_research
+
+routes:
+  MARKET_RADAR:
+    load:
+      - ../01_constitution/investment-constitution.md#market-level-principles
+      - ../02_strategy/market-state-machine.md
+      - ../02_strategy/market-radar.md
+      - ../03_market_state/current.md
+      - current_day_market_inputs
+      - recent_market_deltas_max_3_trading_days_if_needed
+    exclude:
+      - individual_stock_full_history
+      - detailed_exit_rules_unless_position_risk_is_explicitly_requested
+    output:
+      - same_day_market_state_object
+      - market_radar_report
+      - candidate_collection_tasks
+      - next_day_upgrade_maintain_downgrade_conditions
+
+  STOCK_REVIEW:
+    require:
+      - same_day_market_state_object
+    load:
+      - ../01_constitution/investment-constitution.md#stock-and-execution-principles
+      - ../02_strategy/stock-review.md
+      - ../02_strategy/trade-models.md
+      - relevant_stock_current_state
+      - relevant_stock_recent_material_changes
+      - relevant_sector_context
+      - current_day_stock_inputs
+      - current_holding_if_stock_is_P0
+    conditional_load:
+      actual_or_planned_sell:
+        - ../02_strategy/exit-and-sell-review.md
+        - relevant_sell_history
+      index_identity_needed:
+        - index_membership_context_for_stock_only
+    output:
+      - structured_stock_review_object
+      - stock_state_delta
+
+  DAILY_REVIEW:
+    require:
+      - same_day_market_state_object
+      - same_day_stock_review_objects
+    load:
+      - ../01_constitution/investment-constitution.md#portfolio-and-ranking-principles
+      - ../02_strategy/daily-review-top3.md
+      - ../06_portfolio/current-holdings.md
+      - same_day_trade_events
+    exclude:
+      - raw_full_stock_histories_unless_conflict_or_missing_state
+      - re_computation_of_same_day_market_state
+    output:
+      - 7_to_5_to_3
+      - P0_priority_actions
+      - daily_command_summary
+      - next_trading_day_scenario_card
+
+  TOP3:
+    require:
+      - same_day_market_state_object
+      - same_day_stock_review_objects
+    load:
+      - ../02_strategy/daily-review-top3.md#ranking
+      - ../06_portfolio/current-holdings.md
+    rule: consume_upstream_structured_results_do_not_restart_all_stock_analysis
+
+  SELL_CHECK:
+    require:
+      - same_day_market_state_object
+      - target_stock_current_state
+      - current_holding
+    load:
+      - ../02_strategy/exit-and-sell-review.md
+      - target_stock_recent_material_changes
+      - relevant_sell_history
+    output:
+      - S0_to_S4_assessment
+      - two_plus_one_gate
+      - allowed_action
+      - reentry_conditions_if_sold
+
+  TOTAL_REVIEW:
+    alias_of: DAILY_REVIEW
+
+state_reuse:
+  rule: market_radar_creates_the_only_same_day_market_state
+  downstream:
+    - STOCK_REVIEW
+    - DAILY_REVIEW
+    - TOP3
+    - SELL_CHECK
+  forbidden:
+    - downstream_recalculates_a_different_R_A_D_for_same_day
+    - downstream_uses_previous_day_market_state_to_fill_missing_same_day_state
+
+lazy_loading:
+  stock_history:
+    default: current_summary_plus_material_changes
+    expand_when:
+      - state_conflict
+      - trade_postmortem
+      - user_requests_historical_comparison
+      - thesis_or_model_change_requires_provenance
+  lessons:
+    default: false
+    expand_when:
+      - execution_error_review
+      - sell_review
+      - regression_test
+  deprecated_rules:
+    default: false
+    expand_when:
+      - version_diff
+      - rollback
+      - provenance_audit
