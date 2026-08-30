@@ -1,0 +1,46 @@
+system:
+  name: Personal Context OS
+  version: 0.1-DRAFT
+  status: DRAFT
+
+routing:
+  default_mode: lazy-load
+  max_scope: task-relevant-only
+  prefer_current_state: true
+  include_history_when:
+    - user asks for comparison or recall
+    - current decision depends on prior state
+    - regression or audit is requested
+
+project_contract:
+  required:
+    - project-manifest.yaml
+    - context/current.md
+    - decisions/CHANGELOG.md
+    - skills/
+  recommended:
+    - state/
+    - corpus/
+    - catalog/
+    - lessons/
+    - evals/
+    - reports/
+
+evidence_levels:
+  E1: raw_or_structured_fact
+  E2: primary_source
+  E3: verified_secondary_source
+  E4: framework_or_strategy_inference
+  E5: model_judgment
+
+version_lifecycle:
+  - DRAFT
+  - TEST
+  - ACTIVE
+  - DEPRECATED
+  - ARCHIVED
+
+persistence:
+  default: no_write_without_policy
+  log_state_delta: true
+  preserve_history: true
