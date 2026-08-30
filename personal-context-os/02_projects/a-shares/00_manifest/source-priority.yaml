@@ -1,0 +1,100 @@
+policy: a-share-source-priority
+version: 4.0-draft.1
+status: TEST
+
+principles:
+  - time_validity_before_authority
+  - current_day_user_evidence_before_cached_history
+  - primary_source_before_secondary_interpretation
+  - missing_is_not_negative_evidence
+  - inference_must_not_be_written_as_fact
+
+priority:
+  - level: S0
+    name: user_confirmed_transaction_or_manual_verification
+    examples:
+      - broker-confirmed buy/sell/position
+      - user-confirmed current holding
+      - user-manually-verified index membership
+    use: authoritative_for_user_action_and_manual_internal_gold_state
+
+  - level: S1
+    name: current_day_drive_input
+    examples:
+      - current-day screenshots uploaded/provided for market or stock review
+      - current-day chart package stored in Drive
+    use: primary_evidence_for_chart_structure_and_same_day_visual_state
+    rule: public_web_may_cross_check_but_must_not_silently_replace_missing_same_day_chart_evidence
+
+  - level: S2
+    name: official_primary_source
+    examples:
+      - stock exchange disclosure
+      - CNINFO
+      - company official announcement / IR
+      - CSI/SSE/SZSE official index information
+      - official policy/regulator publication
+    use: primary_for_announcements_membership_policy_and_formal_facts
+
+  - level: S3
+    name: verified_structured_market_data
+    examples:
+      - Eastmoney structured data
+      - Tonghuashun structured data
+      - current passive ETF PCF when appropriate
+      - reproducible public OHLCV source
+    use: discovery_cross_check_and_reproducible_numeric_fill
+
+  - level: S4
+    name: reliable_financial_or_industry_media
+    use: secondary_context_only_unless_primary_source_unavailable
+
+  - level: S5
+    name: model_inference
+    use: interpretation_only
+    rule: must_be_labeled_as_strategy_inference_or_model_judgment
+
+conflict_resolution:
+  order:
+    - effective_date_and_time_validity
+    - source_level
+    - explicit_entry_exit_or_state_transition_record
+    - multi_source_cross_validation
+  unresolved_conflict:
+    action: mark_pending_verification
+    forbidden:
+      - force_a_precise_current_fact
+      - compute_dependent_metrics_from_unverified_identity
+      - silently_overwrite_user_verified_state
+
+index_membership:
+  rule: historical_membership_does_not_prove_current_membership
+  must_check:
+    - latest_effective_rebalance_or_adjustment_date
+    - entry_date_if_available
+    - exit_date_if_available
+    - evidence_date_after_latest_relevant_rebalance
+  if_unverified:
+    primary_benchmark: null
+    alpha: N/A
+
+web_fill_boundary:
+  allowed:
+    - public_historical_OHLCV
+    - weekly_monthly_history
+    - official_index_identity
+    - reproducible_breadth_metrics
+    - public_company_announcements
+    - structured_fundamental_data
+  not_allowed_to_upgrade_by_itself:
+    - missing_current_day_stock_chart_to_trade_candidate
+    - missing_current_day_user_chart_structure_to_confirmed_trigger
+    - stale_chart_to_current_day_state
+
+negative_evidence_rule:
+  statement: "search failure or no returned result does not equal confirmed absence"
+  statuses:
+    - confirmed_present
+    - confirmed_no_new_event
+    - search_failed
+    - pending_verification
