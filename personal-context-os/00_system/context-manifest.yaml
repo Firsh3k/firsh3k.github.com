@@ -8,6 +8,7 @@ routing:
   max_scope: task-relevant-only
   prefer_current_state: true
   inbox_default_authority: non_authoritative
+  experience_pool_default_authority: advisory_non_gating
   include_history_when:
     - user asks for comparison or recall
     - current decision depends on prior state
@@ -16,6 +17,10 @@ routing:
     - user asks to ingest or evaluate external material
     - user asks to promote a candidate insight
     - an eval or research task explicitly depends on an inbox item
+  include_experience_pool_when:
+    - task-specific router explicitly loads the relevant experience pool
+    - user asks for lessons, heuristics, or accumulated practical experience
+    - an eval or retrospective is testing experience-pool items
 
 intake:
   trigger_phrases:
@@ -33,6 +38,14 @@ intake:
     - impact_assessment
     - intake_card
     - promotion_recommendation
+  routing_targets:
+    - GLOBAL_CONTEXT
+    - PROJECT_CONTEXT
+    - SHARED_KNOWLEDGE
+    - EXPERIENCE_POOL
+    - LESSONS
+    - RESEARCH_EVALS
+    - ARCHIVE
   insight_types:
     - FACT
     - KNOWLEDGE
@@ -50,6 +63,23 @@ intake:
     - ARCHIVED
   high_impact_direct_activation: forbidden
 
+experience_pool:
+  purpose: useful_durable_heuristics_not_yet_formal_rules
+  authority: advisory_non_gating
+  allowed_effects:
+    - raise_attention
+    - generate_scenarios
+    - request_additional_evidence
+    - create_prospective_validation_case
+  forbidden_independent_effects:
+    - high_impact_gate_change
+    - irreversible_action_authorization
+    - strategy_activation
+  preferred_validation:
+    - prospective_case_logging
+    - include_false_positives
+    - later_incremental_value_review
+
 project_contract:
   required:
     - project-manifest.yaml
@@ -60,6 +90,7 @@ project_contract:
     - state/
     - corpus/
     - catalog/
+    - experience_pool/
     - lessons/
     - evals/
     - reports/
@@ -83,6 +114,7 @@ persistence:
   default: no_write_without_policy
   inbox_staging_allowed: true
   inbox_write_does_not_imply_promotion: true
+  experience_pool_write_does_not_imply_strategy_activation: true
   log_state_delta: true
   preserve_history: true
 
