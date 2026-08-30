@@ -21,6 +21,21 @@ Status: TEST
   - daily review/Top3.
 - Created machine-checkable Friday golden fixture and Monday state-transition fixture.
 
+### 2026-08-30 — Experience maturity and promotion review added
+
+Added:
+- L0–L5 maturity model for A-share Experience items through the system-level `experience-maturity-policy.md`.
+- maturity dashboard in `09_experience_pool/market-observation-experience.md`.
+- current E001–E004 items initialized at **L1 Retained Experience** with zero prospective cases as of 2026-08-30.
+- next-gate visibility for each Experience item.
+
+Operating model:
+- Market Radar and validation logs accumulate evidence during normal execution.
+- PCOS may advance evidence maturity L1 → L2 → L3 when objective criteria are met without changing trading authority.
+- PCOS surfaces `STRATEGY_PROMOTION_REVIEW` when an item is mature enough for formal Strategy work.
+- L3 → L4 and L4 → L5 material transitions require explicit user approval.
+- No Experience item currently has formal Strategy authority.
+
 ### 2026-08-30 — Market observation experience pool added
 
 Source: PCOS Inbox intake of external article 《A股变盘前夜，暴风雨前的宁静》, followed by explicit user approval.
