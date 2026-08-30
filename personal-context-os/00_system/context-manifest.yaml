@@ -66,6 +66,14 @@ intake:
 experience_pool:
   purpose: useful_durable_heuristics_not_yet_formal_rules
   authority: advisory_non_gating
+  maturity_policy: experience-maturity-policy.md
+  maturity_levels:
+    L0: external_insight
+    L1: retained_experience
+    L2: observed_experience
+    L3: validated_experience
+    L4: strategy_candidate
+    L5: active_strategy
   allowed_effects:
     - raise_attention
     - generate_scenarios
@@ -79,6 +87,22 @@ experience_pool:
     - prospective_case_logging
     - include_false_positives
     - later_incremental_value_review
+  maturity_update:
+    system_may_update_without_authority_change:
+      - L1_to_L2
+      - L2_to_L3
+    explicit_user_approval_required:
+      - L3_to_L4_material_strategy_work
+      - L4_to_L5_production_activation
+  review_triggers:
+    - maturity_level_change
+    - sample_threshold_crossed
+    - material_hit_false_positive_change
+    - incremental_value_detected
+    - contradiction_or_downgrade_candidate
+    - strategy_candidate_readiness
+  periodic_audit: recommended_low_frequency
+  notification_policy: notify_only_on_meaningful_status_or_decision_change
 
 project_contract:
   required:
@@ -121,6 +145,7 @@ persistence:
 promotion:
   default: analysis_first_promotion_second
   material_active_changes_require_explicit_promotion: true
+  experience_default_model: system_proposes_user_approves
   deduplicate_before_add: true
   conflict_check_before_promote: true
   eval_when_behavior_changes: true
