@@ -1,5 +1,29 @@
 # Personal Context OS Changelog
 
+## 2026-08-30 — Experience Pool architecture added
+
+Status: `0.1-DRAFT`
+
+### Added
+
+- Project-level **Experience Pool** as an explicit layer between non-authoritative Inbox material and formal strategy/rule promotion.
+- A-share reference implementation: `02_projects/a-shares/09_experience_pool/market-observation-experience.md`.
+- Lightweight prospective validation ledger: `02_projects/a-shares/11_evals/experience-observation-log.md`.
+
+### Changed
+
+- Useful heuristics may now be promoted into an observation layer without first requiring a heavy historical backtest.
+- Experience Pool items can raise attention, trigger scenarios, and create validation cases, but cannot independently change high-impact trading gates or execution authority.
+- Normal daily review can accumulate T+1 / T+3 / T+5 evidence, including false positives, before any later formal rule promotion.
+
+### Governance rule
+
+`Inbox insight → Experience Pool → prospective observation → accumulated evidence → explicit later promotion`
+
+This prevents the false choice between “ignore useful experience until fully backtested” and “treat external experience as a validated trading law.”
+
+---
+
 ## 2026-08-30 — System evolution governance added
 
 Status: `0.1-DRAFT`
