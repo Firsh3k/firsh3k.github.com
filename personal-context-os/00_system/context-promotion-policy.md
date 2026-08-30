@@ -54,6 +54,26 @@ Requirements:
 
 Authority: advisory unless separately promoted into Strategy/Constitution.
 
+### 2A. Experience Pool promotion
+
+Target examples:
+- practitioner heuristics worth surfacing during execution;
+- recurring qualitative patterns;
+- market/regime observations awaiting case accumulation;
+- decision lenses that should change what the system inspects, but not what it is automatically allowed to do.
+
+Requirements:
+1. preserve provenance and uncertainty;
+2. define the observation trigger clearly enough to recognize future cases;
+3. define explicit authority boundaries;
+4. state what the heuristic may influence (attention, scenarios, evidence collection);
+5. state what it may **not** independently influence (high-impact gates, irreversible actions, execution authority);
+6. where useful, create lightweight prospective validation rather than requiring a heavy backtest before observation use.
+
+Authority: advisory / observational only. Experience Pool membership is **not** equivalent to ACTIVE Strategy.
+
+Formal promotion from Experience Pool into Strategy/Constitution requires the Strategy / principle promotion gates below.
+
 ### 3. Strategy / principle promotion
 
 Target examples:
