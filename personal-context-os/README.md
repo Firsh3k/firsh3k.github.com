@@ -13,13 +13,14 @@ Separate six concerns:
 5. **Tools** — external data and actions.
 6. **Outputs** — reports, decisions, artifacts, journals.
 
-The system is designed around **context routing**, **lazy loading**, and **controlled promotion**: load only the smallest useful subset of project context required for the current task, and never let a new source silently rewrite authoritative Context.
+The system is designed around **context routing**, **lazy loading**, **controlled promotion**, and **auditable evolution**: load only the smallest useful subset of project context required for the current task, never let a new source silently rewrite authoritative Context, and preserve why the system itself changed over time.
 
 ## Repository layout
 
 ```text
 personal-context-os/
 ├── README.md
+├── CHANGELOG.md
 ├── 00_inbox/
 │   └── README.md
 ├── 00_system/
@@ -31,7 +32,11 @@ personal-context-os/
 │   ├── source-priority.md
 │   ├── evidence-policy.md
 │   ├── version-policy.md
-│   └── write-policy.md
+│   ├── write-policy.md
+│   └── evolution/
+│       ├── README.md
+│       ├── EVOLUTION-LOG.md
+│       └── ADR-0001-context-inbox-and-promotion.md
 ├── 01_global_context/
 │   ├── user-preferences.md
 │   ├── decision-principles.md
@@ -61,6 +66,8 @@ personal-context-os/
 - **No silent overwrite.** Strategy/Skill changes move through DRAFT → TEST → RC → ACTIVE → DEPRECATED → ARCHIVED.
 - **Regression before promotion.** Major skill/strategy changes should be tested against representative cases.
 - **Source ≠ insight ≠ rule.** Preserve provenance and do not convert an author's opinion into a personal validated principle.
+- **Current truth ≠ evolution history.** Current system files describe what is true now; evolution records preserve how and why the architecture changed.
+- **GitHub is the architecture system-of-record.** Chat may originate proposals and decisions, but accepted material PCOS architecture changes must be distilled into repository records.
 
 ## Normal execution lifecycle
 
@@ -96,6 +103,29 @@ Article / video / book / conversation / idea
 ```
 
 The default is **analysis first, promotion second**. High-impact ACTIVE Strategy, Constitution, legal/health/investment rules, and other consequential decision logic must never be changed merely because a new source was ingested.
+
+## System evolution lifecycle
+
+Material PCOS architecture changes are recorded using three complementary layers:
+
+- **`CHANGELOG.md`** — what changed;
+- **`00_system/evolution/EVOLUTION-LOG.md`** — how the system evolved from one architecture state to another;
+- **ADRs** — why an important architecture decision was made, alternatives considered, consequences, and revisit conditions.
+
+Canonical traceability:
+
+```text
+Need / problem
+  → proposal
+  → architecture decision
+  → implementation
+  → CHANGELOG
+  → EVOLUTION-LOG
+  → validation / eval
+  → current state / next gate
+```
+
+The purpose is to make PCOS evolution understandable without replaying entire historical conversations.
 
 ## Status
 
