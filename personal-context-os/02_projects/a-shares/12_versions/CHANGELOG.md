@@ -21,6 +21,27 @@ Status: TEST
   - daily review/Top3.
 - Created machine-checkable Friday golden fixture and Monday state-transition fixture.
 
+### 2026-08-30 — Market observation experience pool added
+
+Source: PCOS Inbox intake of external article 《A股变盘前夜，暴风雨前的宁静》, followed by explicit user approval.
+
+Added:
+- `09_experience_pool/market-observation-experience.md` as a non-gating A-share market-watching experience layer.
+- `11_evals/experience-observation-log.md` for lightweight prospective T+1 / T+3 / T+5 validation.
+- E001 `资金僵局 / 脆弱平衡` experience heuristic.
+- E002 `波动率压缩 → 变盘观察`.
+- E003 `缩量反弹 / 放量杀跌` volume-asymmetry observation.
+- E004 `仓位 × 情绪` contrarian observation, sample-bias limited.
+
+Changed:
+- Market Radar now loads the experience pool and reports `triggered / not triggered / N/A` observation overlays.
+- Experience signals may raise attention and create validation cases but cannot independently change Market Gate, new-risk permission, stock promotion, or sell rules.
+- No heavy historical backtest is required before observation use; evidence accumulates prospectively through normal daily reviews.
+
+Promotion boundary:
+- Experience heuristic → observation layer now.
+- Formal Market State / trading gate only after later explicit promotion and evidence review.
+
 ### Migration baseline verified from production Sheet
 - `PROMPT_SYSTEM_MASTER_V3` = `2026.08.25-v3.4 ACTIVE`
 - `PROMPT_MARKET_RADAR` = `2026.08.25-v2 ACTIVE`
