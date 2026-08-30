@@ -13,6 +13,8 @@ Separate six concerns:
 5. **Tools** — external data and actions.
 6. **Outputs** — reports, decisions, artifacts, journals.
 
+Within project Context, an optional **Experience Pool** may store useful, durable, non-gating heuristics that should influence what the system watches but are not yet validated enough to become formal Strategy/Constitution rules.
+
 The system is designed around **context routing**, **lazy loading**, **controlled promotion**, and **auditable evolution**: load only the smallest useful subset of project context required for the current task, never let a new source silently rewrite authoritative Context, and preserve why the system itself changed over time.
 
 ## Repository layout
@@ -55,10 +57,13 @@ personal-context-os/
 └── 05_archive/
 ```
 
+Project implementations may add an `experience_pool` sublayer when practitioner heuristics need controlled, advisory use before formal rule promotion.
+
 ## Design principles
 
 - **Global template, local context.** Keep cross-project rules small; isolate project-specific state.
 - **Inbox is not authority.** External content can be captured freely but must pass classification, conflict checks, and promotion gates before changing ACTIVE Context.
+- **Experience is not a gate.** Useful heuristics may enter an Experience Pool and affect attention/scenario generation without automatically changing execution authority.
 - **Current state is not history.** Maintain compact `current` files plus append-only history/delta logs.
 - **Knowledge is not workflow.** Skills should orchestrate context instead of becoming giant knowledge stores.
 - **Evidence must be typed.** Separate raw facts, primary sources, verified secondary data, framework/strategy inference, and model judgment.
@@ -97,9 +102,21 @@ Article / video / book / conversation / idea
   → evidence / impact assessment
   → Context Intake Card
   → REFERENCE / OBSERVE / ACTIVE_CANDIDATE / REJECTED
+  → optional Experience Pool for useful non-gating heuristics
   → explicit promotion when required
   → authoritative Context update
   → changelog / version / eval when material
+```
+
+For an Experience Pool item, the preferred learning loop is:
+
+```text
+Inbox insight
+  → Experience Pool
+  → normal execution surfaces the heuristic when relevant
+  → prospective case logging
+  → accumulated evidence
+  → later keep / revise / reject / promote
 ```
 
 The default is **analysis first, promotion second**. High-impact ACTIVE Strategy, Constitution, legal/health/investment rules, and other consequential decision logic must never be changed merely because a new source was ingested.
