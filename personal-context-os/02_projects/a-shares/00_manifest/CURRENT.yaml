@@ -27,12 +27,18 @@ active_context:
   daily_review_top3: ../02_strategy/daily-review-top3.md
   source_priority: source-priority.yaml
   routing: routing.yaml
+  daily_runbook: ../DAILY-RUNBOOK.md
 
 current_state:
   market_as_of: 2026-08-28
   market_state: ../03_market_state/current.md
+  sector_as_of: 2026-08-28
+  sector_state: ../04_sector_context/current.md
+  stock_as_of: 2026-08-28
+  stock_index: ../05_stock_context/current-watchlist.md
   portfolio_as_of: 2026-08-28
   portfolio_state: ../06_portfolio/current-holdings.md
+  latest_trade_delta: ../07_trading_journal/2026-08-28-cases.md
 
 validation:
   friday_fixture: ../11_evals/friday-2026-08-28.yaml
