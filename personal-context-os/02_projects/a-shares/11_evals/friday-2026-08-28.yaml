@@ -1,0 +1,123 @@
+eval_id: friday-2026-08-28-golden
+version: 1
+status: ACTIVE_FIXTURE
+purpose: "Regression-test V4.0-DRAFT against the frozen production V3.4 Friday result without production writes."
+
+input:
+  trading_date: 2026-08-28
+  state: close_confirmed
+  source_sheet: "A股复盘总控台/2026-08-28"
+  production_baseline:
+    system: 2026.08.25-v3.4
+    market_radar: 2026.08.25-v2
+    stock_review: 2026.08.25-v3
+    daily_review: 2026.08.25-v3
+    shared_rules: 2026.08.25-v3
+    sell_protocol: 2026.08.24-v2
+    sync_protocol: 2026.08.25-v4
+
+expected_market:
+  gate: "🟠高波动轮动"
+  market_nature: "R2修复失速"
+  R: -7.5
+  A: 13.3
+  D: 20.8
+  new_risk_default_pct: 0
+  executable_empty_position_candidates: 0
+  no_S_level_persistent_mainline: true
+  key_observations:
+    agriculture_seed_supply_coop: "A- high heat; only first real divergence/support next session"
+    chemicals_fertilizer_PTFE: "B+/A- observation"
+    AI_app_network_security: "B+ rotation/local revival"
+    hard_tech_CPO_PCB: "B observation after T+1 breadth failure"
+  must_not:
+    - interpret_positive_D_as_buy_signal
+    - substitute_short_window_breadth_for_B250
+    - promote_market_candidate_without_full_stock_evidence
+    - invent_industry_lifecycle_or_timing_score_when_unqualified
+
+expected_stock_review:
+  formal_success_count: 6
+  P0_data_gap_count: 2
+  successful:
+    - 飞荣达_300602
+    - 拓斯达_300607
+    - 长江通信_600345
+    - 银之杰_300085
+    - 国风新材_000859
+    - 有研硅_688432
+  gaps:
+    - 博济医药_300404
+    - 中巨芯-U_688549
+
+expected_P0:
+  飞荣达_300602:
+    quantity: 1500
+    approx_cost: 42.460
+    role: remaining_position_protection
+    add_permission: false
+  拓斯达_300607:
+    quantity: 1600
+    approx_cost: 35.475
+    role: net_add_risk_correction
+    add_permission: false
+  博济医药_300404:
+    quantity: 100
+    cost: 15.50
+    status: data_gap
+  中巨芯-U_688549:
+    quantity: 200
+    cost: 29.78
+    status: data_gap
+
+expected_final3:
+  - rank: 1
+    stock: 飞荣达_300602
+    role: P0_protection
+  - rank: 2
+    stock: 拓斯达_300607
+    role: P0_risk_correction
+  - rank: 3
+    stock: 银之杰_300085
+    role: conditional_observation
+  semantics: "Final3 is not a buy list."
+
+expected_trade_process:
+  飞荣达_300602:
+    event: "T500 + net reduce 500"
+    before_after: "2000 -> 1500"
+    primary_process_label: N
+  拓斯达_300607:
+    event: "T400 + net add 1100"
+    before_after: "500 -> 1600"
+    process_labels:
+      - E
+      - R
+    must_recognize_plan_conflict: true
+
+pass_criteria:
+  critical:
+    - exact_R_A_D_match
+    - market_gate_match
+    - zero_default_new_risk_match
+    - no_forced_trade
+    - six_plus_two_data_completeness_semantics
+    - P0_quantities_and_roles_match
+    - Final3_roles_match
+    - model_does_not_turn_data_gap_into_negative_or_positive_fact
+  structural:
+    - market_state_is_created_once_and_reused
+    - stock_review_consumes_same_day_market_state
+    - daily_review_consumes_structured_stock_outputs
+    - evidence_and_inference_are_separated
+  allowed_variation:
+    - prose_wording
+    - section_order_if_semantics_preserved
+    - additional_labeled_non_conflicting_observations
+  fail_on:
+    - dropped_active_rule_that_changes_action
+    - different_same_day_R_A_D_between_reports
+    - invented_chart_or_event_data
+    - treating_Final3_as_three_buys
+    - turning_friday_orange_into_yellow_or_red_without_new_evidence
+    - writing_to_production_sheet_during_dry_run
