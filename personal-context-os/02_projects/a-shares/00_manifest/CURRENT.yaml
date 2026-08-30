@@ -1,0 +1,53 @@
+project: a-shares
+context_system: Personal-Context-OS
+context_system_version: 0.1
+project_context_version: 4.0-draft.1
+status: TEST
+production_baseline:
+  system_prompt_key: PROMPT_SYSTEM_MASTER_V3
+  version: 2026.08.25-v3.4
+  status: ACTIVE
+  source: "A股复盘总控台/提示词注册中心"
+
+draft_candidate:
+  skill: review-a-shares
+  version: 4.0-DRAFT
+  lifecycle: TEST
+  activation_policy: "Do not replace production V3.4 until Friday regression + Monday state-transition + RC checks pass."
+
+active_context:
+  constitution: ../01_constitution/investment-constitution.md
+  market_state_machine: ../02_strategy/market-state-machine.md
+  market_radar: ../02_strategy/market-radar.md
+  stock_review: ../02_strategy/stock-review.md
+  trade_models: ../02_strategy/trade-models.md
+  exit_sell_review: ../02_strategy/exit-and-sell-review.md
+  daily_review_top3: ../02_strategy/daily-review-top3.md
+  source_priority: source-priority.yaml
+  routing: routing.yaml
+
+current_state:
+  market_as_of: 2026-08-28
+  market_state: ../03_market_state/current.md
+  portfolio_as_of: 2026-08-28
+  portfolio_state: ../06_portfolio/current-holdings.md
+
+validation:
+  friday_fixture: ../11_evals/friday-2026-08-28.yaml
+  monday_transition: ../11_evals/monday-2026-08-31-state-transition.yaml
+  required_before_rc:
+    - no_active_rule_loss
+    - friday_market_state_match
+    - friday_R_A_D_match
+    - friday_zero_new_risk_permission_match
+    - friday_P0_roles_match
+    - same_day_state_reuse_across_workflows
+  required_before_active:
+    - monday_state_transition_pass
+    - persistence_idempotency_pass
+    - rollback_verified
+
+persistence:
+  production_sheet_id: 1iuOiTFaEMBtlsgJewhT5qO1YhcufUO-qdInY0HO01xE
+  writes_during_draft_test: false
+  note: "V4 dry-runs are read-only unless the user explicitly requests a production write."
