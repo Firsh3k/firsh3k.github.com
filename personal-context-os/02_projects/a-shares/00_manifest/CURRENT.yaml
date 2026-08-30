@@ -3,6 +3,7 @@ context_system: Personal-Context-OS
 context_system_version: 0.1
 project_context_version: 4.0-draft.1
 status: TEST
+
 production_baseline:
   system_prompt_key: PROMPT_SYSTEM_MASTER_V3
   version: 2026.08.25-v3.4
@@ -13,7 +14,8 @@ draft_candidate:
   skill: review-a-shares
   version: 4.0-DRAFT
   lifecycle: TEST
-  activation_policy: "Do not replace production V3.4 until Friday regression + Monday state-transition + RC checks pass."
+  installed_runtime: false
+  activation_policy: "Do not replace production V3.4 until Friday regression + Monday state-transition + RC integration checks pass."
 
 active_context:
   constitution: ../01_constitution/investment-constitution.md
@@ -34,7 +36,15 @@ current_state:
 
 validation:
   friday_fixture: ../11_evals/friday-2026-08-28.yaml
+  friday_result: ../11_evals/friday-2026-08-28-v4-dry-run.md
+  friday_structural_decision_regression: PASS
+  friday_raw_screenshot_independent_replay: NOT_RUN
+  installed_skill_runtime: NOT_RUN
   monday_transition: ../11_evals/monday-2026-08-31-state-transition.yaml
+  monday_transition_status: WAITING_FOR_REAL_CLOSE_DATA
+  persistence_idempotency: NOT_RUN
+  rollback_verification: NOT_RUN
+
   required_before_rc:
     - no_active_rule_loss
     - friday_market_state_match
@@ -42,12 +52,14 @@ validation:
     - friday_zero_new_risk_permission_match
     - friday_P0_roles_match
     - same_day_state_reuse_across_workflows
-  required_before_active:
     - monday_state_transition_pass
+
+  required_before_active:
+    - RC_cross_workflow_consistency_pass
     - persistence_idempotency_pass
     - rollback_verified
 
 persistence:
   production_sheet_id: 1iuOiTFaEMBtlsgJewhT5qO1YhcufUO-qdInY0HO01xE
   writes_during_draft_test: false
-  note: "V4 dry-runs are read-only unless the user explicitly requests a production write."
+  note: "V4 dry-runs are read-only by default. Future ACTIVE mode inherits the then-current production sync/read-back contract."
