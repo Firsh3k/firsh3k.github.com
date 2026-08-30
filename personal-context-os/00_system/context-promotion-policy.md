@@ -72,6 +72,11 @@ Requirements:
 
 Authority: advisory / observational only. Experience Pool membership is **not** equivalent to ACTIVE Strategy.
 
+Experience maturity is governed by `experience-maturity-policy.md` using L0 → L5. Maturity and authority are intentionally separate:
+- PCOS may update evidence maturity through L1 → L2 → L3 when objective criteria are met and no execution authority changes;
+- L3 → L4 opens material Strategy-candidate work and requires explicit user approval;
+- L4 → L5 production activation requires applicable TEST/RC gates and explicit user approval.
+
 Formal promotion from Experience Pool into Strategy/Constitution requires the Strategy / principle promotion gates below.
 
 ### 3. Strategy / principle promotion
@@ -95,6 +100,19 @@ Requirements:
 9. preserve rollback target.
 
 Authority: ACTIVE only after all applicable gates pass.
+
+## Experience promotion initiation
+
+For Experience Pool items, the default operating model is **system-proposes, user-approves**.
+
+PCOS should proactively surface a promotion review when:
+- an item reaches a new material maturity level;
+- sample/evidence thresholds are met;
+- incremental value beyond existing ACTIVE Context becomes plausible;
+- the item is ready to be formulated as a reproducible Strategy Candidate;
+- contradictory evidence suggests downgrade/archive.
+
+The user may initiate a review at any time, but does not need to remember to do so.
 
 ## Duplicate handling
 
