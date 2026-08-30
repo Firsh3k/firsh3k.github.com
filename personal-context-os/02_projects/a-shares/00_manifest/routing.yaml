@@ -20,6 +20,7 @@ routes:
       - ../02_strategy/market-state-machine.md
       - ../02_strategy/market-radar.md
       - ../03_market_state/current.md
+      - ../09_experience_pool/market-observation-experience.md
       - current_day_market_inputs
       - recent_market_deltas_max_3_trading_days_if_needed
     exclude:
@@ -28,6 +29,7 @@ routes:
     output:
       - same_day_market_state_object
       - market_radar_report
+      - experience_pool_trigger_status
       - candidate_collection_tasks
       - next_day_upgrade_maintain_downgrade_conditions
 
