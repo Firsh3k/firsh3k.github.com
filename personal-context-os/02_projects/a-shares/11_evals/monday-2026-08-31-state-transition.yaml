@@ -1,6 +1,6 @@
 eval_id: monday-2026-08-31-state-transition
 version: 1
-status: WAITING_FOR_REAL_CLOSE_DATA
+status: PASS
 purpose: "Verify that V4 carries Friday state as prior context but rebuilds Monday current state from Monday evidence, without copying Friday conclusions."
 
 prior_state:
@@ -13,6 +13,19 @@ prior_state:
 run_date: 2026-08-31
 required_state: close_confirmed
 production_write_during_test: false
+
+validated_state:
+  state_id: MS-20260831-CLOSE-V4DRAFT
+  gate: "🟡条件型进攻"
+  R_stage: "R2修复确认/向R3扩散候选"
+  R: 16.7
+  A: 25.8
+  D: 9.2
+  default_new_risk_permission: "0%"
+  same_day_state_reuse: PASS
+  full_new_executable_candidates: 0
+  stock_review_semantics: "5 fully reviewed + 2 P0 data gaps"
+  result_file: monday-2026-08-31-v4-validation.md
 
 transition_candidates:
   UPGRADE_TO_YELLOW:
@@ -84,18 +97,26 @@ must_verify_on_monday:
   - No production write occurs in V4 TEST mode unless explicitly authorized.
 
 pass_criteria:
-  - valid_state_transition_reasoning
-  - no_stale_state_copy
-  - same_day_state_reuse
-  - no_rule_loss_vs_v3_4
-  - no_unverified_fact_promotion
-  - correct_P0_transaction_reconciliation
-  - output_contract_complete
+  valid_state_transition_reasoning: PASS
+  no_stale_state_copy: PASS
+  same_day_state_reuse: PASS
+  no_rule_loss_vs_v3_4: PASS_DECISION_SEMANTIC
+  no_unverified_fact_promotion: PASS
+  correct_P0_transaction_reconciliation: PASS_WITH_SOURCE_CONFLICT_WARNING
+  output_contract_complete: PASS
+
+source_conflict_warning:
+  issue: "博济医药 and 中巨芯-U are called current real P0 in one production summary line, while detailed rows say Monday account holding remains pending verification."
+  v4_resolution: "Treat as carry-forward P0_UNRESOLVED until broker/account evidence confirms Monday holding; do not invent stock scores or S0-S4."
+  blocking: false
 
 promotion_if_pass:
+  rc1_eligible: true
   next_status: RC1
+  automatic_promotion: false
   not_yet_ACTIVE: true
   additional_RC_checks:
     - market_radar_stock_review_daily_review_cross_consistency
     - persistence_idempotency
     - rollback_path
+    - installed_runtime_when_available
