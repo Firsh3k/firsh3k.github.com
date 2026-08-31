@@ -1,0 +1,112 @@
+eval_id: rc1-2026-09-01-independent-shadow
+version: 1
+status: WAITING_FOR_CLOSE_CONFIRMED_DATA
+candidate:
+  skill: review-a-shares
+  version: 4.0-RC1
+  lifecycle: RC
+production_control:
+  version: 2026.08.25-v3.4
+  status: ACTIVE
+run_date: 2026-09-01
+mode: READ_ONLY_INDEPENDENT_SHADOW
+production_write_by_rc1: false
+
+purpose: >-
+  Prove that Context + Skill V4.0-RC1 can independently produce the same core
+  decision semantics as V3.4 from the same frozen 2026-09-01 close-confirmed raw
+  evidence, without reading V3.4 same-day derived conclusions before the RC1
+  result is frozen.
+
+prior_context:
+  date: 2026-08-31
+  source: monday-2026-08-31-v4-validation.md
+  canonical_test_state: "MS-20260831-CLOSE-V4DRAFT | 🟡 | R=+16.7 | A=+25.8 | D=+9.2"
+  rule: "Use 2026-08-31 only as prior state for transition/delta; never as a substitute for 2026-09-01 evidence."
+
+input_isolation:
+  allowed_before_rc1_result_freeze:
+    - current-day Drive screenshots / chart packages
+    - current-day reproducible market/index OHLCV and official/public facts allowed by source-priority policy
+    - current-day actual broker/user-confirmed transactions and holdings evidence
+    - prior PCOS Context and ACTIVE strategy modules
+    - prior dated production records only when needed for state delta or trade history
+  prohibited_before_rc1_result_freeze:
+    - same-day V3.4 Market Radar conclusions
+    - same-day V3.4 R/A/D result as an input
+    - same-day V3.4 Stock Review classifications as an input
+    - same-day V3.4 Final3 / Daily Review conclusions as an input
+  conflict_rule: "If a same-day production-derived result is encountered early, do not use it as evidence; record contamination risk and re-run from isolated inputs if material."
+
+execution_order:
+  - freeze_2026_09_01_raw_input_snapshot
+  - run_rc1_market_radar_and_create_single_canonical_market_state
+  - run_rc1_stock_review_using_that_same_market_state
+  - run_rc1_daily_review_top3_using_structured_same_day_stock_objects
+  - freeze_rc1_result
+  - run_or_read_v3_4_production_control
+  - compare_rc1_vs_v3_4
+  - record_differences_and_regressions
+
+must_verify:
+  - identity_date_formula_audit_before_index_scores
+  - all_qualified_index_scores_recomputed_from_2026_09_01_data
+  - one_and_only_one_same_day_R_A_D_object
+  - Radar_Stock_Daily_Top3_reuse_same_state_id_and_values
+  - actual_2026_09_01_transactions_and_P0_holdings_reconcile
+  - missing_stock_chart_packages_remain_data_gaps
+  - S0_S4_and_2plus1_sell_semantics_preserved
+  - Final3_is_not_a_buy_list
+  - zero_executable_trades_is_allowed
+  - no_RC1_write_to_production_during_shadow_run
+
+hard_match_fields_vs_control:
+  - trading_date_and_close_status
+  - index_identity_and_formula_version
+  - qualified_R_A_D_values
+  - actual_transactions
+  - confirmed_holdings
+  - material_data_gaps_and_NA_boundaries
+  - hard_market_gate_semantics
+  - four_gate_and_sell_hard_rules
+
+explainable_difference_fields:
+  - prose_wording
+  - theme_description_wording
+  - non-hard ranking_ties
+  - Final3_second_or_third_place_when_evidence_scores_are_close
+  - confidence_language
+
+fail_conditions:
+  - stale_prior_state_copied_as_current
+  - materially_different_R_A_D_from_same_qualified_inputs
+  - downstream_workflow_recomputes_a_second_market_state
+  - missing_required_evidence_is_silently_filled_to_promote_a_trade_candidate
+  - confirmed_trade_or_holding_state_is_wrong
+  - critical_V3_4_rule_is_lost_or_bypassed
+  - RC1_writes_production_during_read_only_shadow
+
+pass_criteria:
+  - independent_raw_input_execution_pass
+  - same_day_state_reuse_pass
+  - decision_semantic_regression_pass
+  - P0_transaction_reconciliation_pass
+  - data_gap_discipline_pass
+  - no_critical_rule_loss
+
+post_shadow_if_pass:
+  status: REMAIN_RC1
+  next_checks:
+    - controlled_persistence_idempotency_readback
+    - rollback_verification
+    - installed_runtime_validation_when_available
+    - one_or_two_additional_shadow_days_preferred_for_different_market_conditions
+  active_promotion_requires_explicit_decision: true
+
+post_shadow_if_fail:
+  status: RC1_BLOCKED
+  action:
+    - keep_V3_4_ACTIVE
+    - log_regression
+    - patch_RC_candidate
+    - rerun_relevant_evals
