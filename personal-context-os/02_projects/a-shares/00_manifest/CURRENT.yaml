@@ -15,6 +15,7 @@ draft_candidate:
   version: 4.0-DRAFT
   lifecycle: TEST
   installed_runtime: false
+  rc1_eligible: true
   activation_policy: "Do not replace production V3.4 until Friday regression + Monday state-transition + RC integration checks pass."
 
 active_context:
@@ -40,6 +41,7 @@ current_state:
   portfolio_as_of: 2026-08-28
   portfolio_state: ../06_portfolio/current-holdings.md
   latest_trade_delta: ../07_trading_journal/2026-08-28-cases.md
+  note: "TEST validation did not promote/persist Monday as authoritative V4 current state. Monday close-confirmed validation result is stored under 11_evals."
 
 validation:
   friday_fixture: ../11_evals/friday-2026-08-28.yaml
@@ -48,25 +50,30 @@ validation:
   friday_raw_screenshot_independent_replay: NOT_RUN
   installed_skill_runtime: NOT_RUN
   monday_transition: ../11_evals/monday-2026-08-31-state-transition.yaml
-  monday_transition_status: WAITING_FOR_REAL_CLOSE_DATA
+  monday_result: ../11_evals/monday-2026-08-31-v4-validation.md
+  monday_transition_status: PASS
+  monday_canonical_test_state: "MS-20260831-CLOSE-V4DRAFT | 🟡 | R=+16.7 | A=+25.8 | D=+9.2"
+  monday_P0_reconciliation: PASS_WITH_SOURCE_CONFLICT_WARNING
+  rc1_eligibility: ELIGIBLE_PENDING_EXPLICIT_PROMOTION
   experience_observation_log: ../11_evals/experience-observation-log.md
   experience_pool_validation: PROSPECTIVE_LIGHTWEIGHT
   persistence_idempotency: NOT_RUN
   rollback_verification: NOT_RUN
 
   required_before_rc:
-    - no_active_rule_loss
-    - friday_market_state_match
-    - friday_R_A_D_match
-    - friday_zero_new_risk_permission_match
-    - friday_P0_roles_match
-    - same_day_state_reuse_across_workflows
-    - monday_state_transition_pass
+    no_active_rule_loss: PASS_DECISION_SEMANTIC
+    friday_market_state_match: PASS
+    friday_R_A_D_match: PASS
+    friday_zero_new_risk_permission_match: PASS
+    friday_P0_roles_match: PASS
+    same_day_state_reuse_across_workflows: PASS
+    monday_state_transition_pass: PASS
 
   required_before_active:
     - RC_cross_workflow_consistency_pass
     - persistence_idempotency_pass
     - rollback_verified
+    - installed_runtime_validation_when_available
 
 persistence:
   production_sheet_id: 1iuOiTFaEMBtlsgJewhT5qO1YhcufUO-qdInY0HO01xE
