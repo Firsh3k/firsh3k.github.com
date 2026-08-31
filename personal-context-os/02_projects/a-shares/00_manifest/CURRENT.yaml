@@ -16,6 +16,7 @@ release_candidate:
   version: 4.0-RC1
   lifecycle: RC
   installed_runtime: false
+  skill_contract: ../../../04_skills/review-a-shares-v4-rc1/SKILL-DESIGN.md
   promoted_from: 4.0-DRAFT
   promotion_date: 2026-08-31
   promotion_record: ../12_versions/2026-08-31-v4-rc1-promotion.md
