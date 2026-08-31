@@ -1,5 +1,44 @@
 # A股 Context System Changelog
 
+## 2026-08-31 — V4 Monday real-data state-transition validation
+
+Status: `4.0-DRAFT / TEST`  
+Result: **PASS — RC1 ELIGIBLE, NOT PROMOTED**
+
+Validated against the close-confirmed `2026-08-31` production evidence package in 《A股复盘总控台》.
+
+Passed:
+- rebuilt Monday Market State from Monday evidence rather than copying Friday;
+- canonical Monday state = `🟡条件型进攻 / R=+16.7 / A=+25.8 / D=+9.2`;
+- exact same-day Market State reused across Market Radar → Stock Review → Daily Review/Top3;
+- Friday pending/data-gap items were not silently promoted;
+- strict stock-review semantics = `5 successful + 2 P0 data gaps`;
+- Monday confirmed transactions reconciled: 飞荣达 full exit, 拓斯达 full exit, 长江通信 new 100-share P0;
+- sell-review retained S0-S4 / 2+1 / relative-strength protection semantics;
+- Final3 remained an attention/condition queue, with `0` formal new executable candidates;
+- industry lifecycle, B250, opaque timing score, CSI2000 historical score and missing-stock evidence remained qualified N/A;
+- no V4 TEST write to the production Sheet.
+
+Non-blocking source conflict found:
+- 博济医药 and 中巨芯-U are described as current P0 in one production summary line but detailed rows state Monday account holdings remain pending verification.
+- V4 canonical rule: keep these as `carry-forward P0_UNRESOLVED` until broker/account evidence confirms current holdings; do not invent technical scores or S0-S4.
+
+Still NOT_RUN before ACTIVE:
+- installed ChatGPT Skill runtime validation;
+- RC production persistence/idempotency/read-back;
+- rollback verification;
+- independent raw-screenshot replay of every input rather than relying on the validated close-confirmed production evidence package.
+
+Promotion consequence:
+- planned pre-RC decision-semantic gates are now satisfied;
+- `V4.0-DRAFT` is eligible for an explicit `V4.0-RC1` promotion step;
+- lifecycle remains TEST until explicitly promoted;
+- production `V3.4 ACTIVE` remains unchanged.
+
+Result file: `../11_evals/monday-2026-08-31-v4-validation.md`.
+
+---
+
 ## 4.0-draft.1 — 2026-08-30
 
 Status: TEST
