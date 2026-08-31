@@ -1,9 +1,37 @@
 # A股 Context System Changelog
 
+## 2026-08-31 — V4.0-RC1 promoted
+
+Status: `4.0-RC1 / RC`  
+Production: `V3.4 ACTIVE` remains unchanged  
+Promotion record: `2026-08-31-v4-rc1-promotion.md`
+
+Decision:
+- explicitly promoted `V4.0-DRAFT / TEST` to `V4.0-RC1 / RC` after Friday and Monday pre-RC gates passed;
+- RC1 is a read-only shadow-production candidate, not an ACTIVE release;
+- V3.4 remains the production control and rollback baseline.
+
+RC1 adds:
+- dedicated RC runtime contract: `../../../04_skills/review-a-shares-v4-rc1/SKILL-DESIGN.md`;
+- independent 2026-09-01 shadow fixture: `../11_evals/rc1-2026-09-01-independent-shadow.yaml`;
+- same-day input-isolation rule: freeze RC1 output before reading V3.4 same-day derived R/A/D, stock classifications or Final3;
+- explicit hard-match vs explainable-difference comparison fields;
+- RC persistence remains read-only until a separately scoped idempotency/read-back validation.
+
+Still required before ACTIVE:
+- RC independent raw-input shadow PASS;
+- cross-workflow consistency under isolated same-day inputs;
+- controlled persistence/idempotency/read-back PASS;
+- rollback verification;
+- installed runtime validation when available;
+- preferably additional shadow coverage across 1–2 different market conditions.
+
+---
+
 ## 2026-08-31 — V4 Monday real-data state-transition validation
 
 Status: `4.0-DRAFT / TEST`  
-Result: **PASS — RC1 ELIGIBLE, NOT PROMOTED**
+Result: **PASS — RC1 ELIGIBLE**
 
 Validated against the close-confirmed `2026-08-31` production evidence package in 《A股复盘总控台》.
 
@@ -22,18 +50,6 @@ Passed:
 Non-blocking source conflict found:
 - 博济医药 and 中巨芯-U are described as current P0 in one production summary line but detailed rows state Monday account holdings remain pending verification.
 - V4 canonical rule: keep these as `carry-forward P0_UNRESOLVED` until broker/account evidence confirms current holdings; do not invent technical scores or S0-S4.
-
-Still NOT_RUN before ACTIVE:
-- installed ChatGPT Skill runtime validation;
-- RC production persistence/idempotency/read-back;
-- rollback verification;
-- independent raw-screenshot replay of every input rather than relying on the validated close-confirmed production evidence package.
-
-Promotion consequence:
-- planned pre-RC decision-semantic gates are now satisfied;
-- `V4.0-DRAFT` is eligible for an explicit `V4.0-RC1` promotion step;
-- lifecycle remains TEST until explicitly promoted;
-- production `V3.4 ACTIVE` remains unchanged.
 
 Result file: `../11_evals/monday-2026-08-31-v4-validation.md`.
 
@@ -60,41 +76,14 @@ Status: TEST
   - daily review/Top3.
 - Created machine-checkable Friday golden fixture and Monday state-transition fixture.
 
-### 2026-08-30 — Experience maturity and promotion review added
-
-Added:
-- L0–L5 maturity model for A-share Experience items through the system-level `experience-maturity-policy.md`.
-- maturity dashboard in `09_experience_pool/market-observation-experience.md`.
-- current E001–E004 items initialized at **L1 Retained Experience** with zero prospective cases as of 2026-08-30.
-- next-gate visibility for each Experience item.
-
-Operating model:
-- Market Radar and validation logs accumulate evidence during normal execution.
-- PCOS may advance evidence maturity L1 → L2 → L3 when objective criteria are met without changing trading authority.
-- PCOS surfaces `STRATEGY_PROMOTION_REVIEW` when an item is mature enough for formal Strategy work.
+### Experience maturity and promotion review added
+- Added L0–L5 maturity model for A-share Experience items.
+- Market Radar and validation logs accumulate prospective evidence without granting trading authority.
 - L3 → L4 and L4 → L5 material transitions require explicit user approval.
-- No Experience item currently has formal Strategy authority.
 
-### 2026-08-30 — Market observation experience pool added
-
-Source: PCOS Inbox intake of external article 《A股变盘前夜，暴风雨前的宁静》, followed by explicit user approval.
-
-Added:
-- `09_experience_pool/market-observation-experience.md` as a non-gating A-share market-watching experience layer.
-- `11_evals/experience-observation-log.md` for lightweight prospective T+1 / T+3 / T+5 validation.
-- E001 `资金僵局 / 脆弱平衡` experience heuristic.
-- E002 `波动率压缩 → 变盘观察`.
-- E003 `缩量反弹 / 放量杀跌` volume-asymmetry observation.
-- E004 `仓位 × 情绪` contrarian observation, sample-bias limited.
-
-Changed:
-- Market Radar now loads the experience pool and reports `triggered / not triggered / N/A` observation overlays.
-- Experience signals may raise attention and create validation cases but cannot independently change Market Gate, new-risk permission, stock promotion, or sell rules.
-- No heavy historical backtest is required before observation use; evidence accumulates prospectively through normal daily reviews.
-
-Promotion boundary:
-- Experience heuristic → observation layer now.
-- Formal Market State / trading gate only after later explicit promotion and evidence review.
+### Market observation experience pool added
+- Added `09_experience_pool/market-observation-experience.md` and `11_evals/experience-observation-log.md`.
+- Experience signals may raise attention and create validation cases but cannot independently change Market Gate, new-risk permission, stock promotion or sell rules.
 
 ### Migration baseline verified from production Sheet
 - `PROMPT_SYSTEM_MASTER_V3` = `2026.08.25-v3.4 ACTIVE`
@@ -119,14 +108,5 @@ Preserved critical invariants:
 - qualified N/A fields stayed N/A;
 - no production writes.
 
-Not yet tested:
-- independent raw-screenshot replay;
-- installed Skill runtime;
-- production persistence/idempotency;
-- Monday real-data state transition;
-- rollback mechanics.
-
 ### Promotion policy
 `V4.0-DRAFT TEST → Friday PASS → Monday PASS → V4.0-RC1 → integration/rollback PASS → V4.0 ACTIVE`.
-
-Production V3.4 remains untouched until promotion.
