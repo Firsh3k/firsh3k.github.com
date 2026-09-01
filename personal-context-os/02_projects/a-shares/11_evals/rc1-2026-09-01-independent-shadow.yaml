@@ -1,6 +1,6 @@
 eval_id: rc1-2026-09-01-independent-shadow
 version: 1
-status: RC1_BLOCKED_INPUT_CONTRACT_CONTROL_WAITING
+status: RC1_BLOCKED_INPUT_CONTRACT
 candidate:
   skill: review-a-shares
   version: 4.0-RC1
@@ -8,7 +8,8 @@ candidate:
 production_control:
   version: 2026.08.25-v3.4
   status: ACTIVE
-  same_day_result_status: NOT_YET_AVAILABLE
+  same_day_result_status: AVAILABLE_AND_COMPARED
+  market_state_id: MS-20260901-CLOSE-V3.4
 run_date: 2026-09-01
 mode: READ_ONLY_INDEPENDENT_SHADOW
 production_write_by_rc1: false
@@ -39,6 +40,7 @@ input_isolation:
     - same-day V3.4 Final3 / Daily Review conclusions as an input
   isolation_result: PASS
   freeze_record: rc1-2026-09-01-shadow-freeze.md
+  final_comparison_record: rc1-2026-09-01-independent-shadow-result.md
   conflict_rule: "If a same-day production-derived result is encountered early, do not use it as evidence; record contamination risk and re-run from isolated inputs if material."
 
 execution_order:
@@ -64,36 +66,98 @@ independent_shadow_result:
   data_gap_discipline: PASS
   no_production_write: PASS
   final3_not_buy_list: PASS
+  final3:
+    - 长江通信
+    - 佳禾智能
+    - 乐心医疗
   formal_new_executable_candidates: 0
+
+production_control_result:
+  canonical_state_id: MS-20260901-CLOSE-V3.4
+  market_gate: "🟠数据降级，实际执行按🔴防守"
+  R: N/A
+  A: +16.7
+  D: N/A
+  default_new_risk: 0%
+  final3:
+    - 长江通信
+    - 佳禾智能
+    - 乐心医疗
+  formal_new_executable_candidates: 0
+  attack_anchor_components:
+    中证500: +5.0
+    中证1000: +22.5
+    国证2000: +22.5
+  shanghai_reference_score: +42.5
+  shanghai_reference_allowed_in_formal_R_D: false
 
 blocking_findings:
   - "The only Shanghai Index screenshot in the 20260901 raw market folder is stale: image-internal date=2026-08-31 and close=3986.30. It fails the same-day identity/date hard gate."
-  - "The isolated raw package/runtime did not provide enough independently auditable MACD/KDJ/BOLL plus weekly/monthly inputs to recompute every six-component anchor technical score without relying on same-day V3.4 derived results."
-  - "Current holdings can be derived from prior state plus visible trade markers, but broker/account readback was not independently located; derived quantities must remain pending confirmation."
+  - "The isolated RC runtime did not expose an independently reproducible 330-day OHLCV + deterministic six-component score pipeline, so it could not reconstruct the qualified Attack Anchor A=+16.7 before control read."
+  - "Current holdings can be derived from prior state plus visible trade markers, but broker/account readback was not independently located; derived quantities must retain provenance."
 
 same_day_raw_trade_markers:
   - "佳禾智能: 买入 11.900 × 100"
   - "长江通信: 买入 49.304 × 1000; 卖出 51.250 × 100"
 
+transaction_reconciliation:
+  status: PASS
+  production_confirmed:
+    - "佳禾智能: buy 100 @ 11.900; end P0 100 @ 11.900"
+    - "长江通信: buy 1000 @ 49.304; sell overnight 100 @ 51.250; end P0 1000 @ 49.304"
+    - "SELL-20260901-001 is the unique 2026-09-01 sell record"
+
+p0_reconciliation:
+  status: PASS_WITH_SOURCE_CONFIDENCE_WARNING
+  long_river_quantity_match: true
+  jiahe_quantity_match: true
+  boji_boundary_match: true
+  zhongjuxin_boundary_match: true
+  note: "RC1 derived 长江/佳禾 quantities from prior state + same-day trade markers and kept broker confirmation pending; V3.4 operationally wrote them as P0. Quantities do not conflict. 博济/中巨芯 remain account-readback pending and technical N/A in production."
+
 stock_package_audit:
-  qualified_current_packages:
+  rc1_raw_discovery:
     - 飞荣达
     - 拓斯达
     - 长江通信
     - 佳禾智能
     - 乐心医疗
     - 银之杰
+  production_formal_complete_stock_reviews:
+    - 飞荣达
+    - 拓斯达
+    - 长江通信
+    - 佳禾智能
+    - 乐心医疗
   data_gaps:
     - 博济医药
     - 中巨芯-U
-  note: "银之杰 current images were uploaded 2026-09-01 but parent folder is misnamed 20260831; image-internal date controls qualification."
+  routing_difference: "RC1 discovered a valid 09/01 银之杰 package under a misnamed 20260831 parent folder, while V3.4 did not include 银之杰 in the formal 09/01 daily universe. No downstream decision changed. Formalize a canonical daily-stock-universe contract."
+
+hard_match_results:
+  trading_date_and_close_status: PASS
+  index_identity_and_date_boundary: PASS
+  formula_semantics: PASS_SEMANTIC
+  R: PASS_NA_MATCH
+  A: FAIL_HARD_MISMATCH_RC1_NA_VS_CONTROL_PLUS_16_7
+  D: PASS_NA_MATCH
+  actual_transactions: PASS_EXACT
+  confirmed_holdings: PASS_WITH_PROVENANCE_WARNING
+  material_data_gaps_and_NA_boundaries: PASS
+  hard_market_gate_semantics: PASS_SEMANTIC_LABEL_DIFF
+  four_gate_and_sell_hard_rules: PASS
+  final3_order: PASS_EXACT
+  zero_executable_candidates: PASS_EXACT
 
 control_comparison:
-  status: WAITING_FOR_V3_4_2026_09_01_PRODUCTION_RESULT
-  evidence:
-    - "A股复盘总控台 metadata has no 2026-09-01 date sheet at comparison time."
-    - "Independent A股市场雷达与股票收集器 / 13_市场复盘日报 has no 2026-09-01 record at comparison time."
-  rule: "Do not manufacture a control result. Continue comparison after normal V3.4 production run is available; do not rerun the frozen RC1 phase unless input-contract repair is explicitly being retested."
+  status: COMPLETE
+  overall: FAIL
+  classification: RC1_BLOCKED_INPUT_CONTRACT
+  decision_semantic_regression: PASS
+  independent_raw_input_execution: FAIL_INPUT_CONTRACT
+  material_strategy_rule_regression_found: false
+  key_reason: "V3.4 independently computed A=+16.7 from qualified 330-day OHLCV-derived scores; the frozen RC1 runtime returned A=N/A because the score-computation input pipeline was not self-contained."
+  result_file: rc1-2026-09-01-independent-shadow-result.md
 
 must_verify:
   - identity_date_formula_audit_before_index_scores
@@ -142,20 +206,24 @@ pass_criteria:
   - data_gap_discipline_pass
   - no_critical_rule_loss
 
-post_shadow_if_pass:
-  status: REMAIN_RC1
-  next_checks:
+next_stage_qualification:
+  active_promotion: BLOCKED
+  persistence_idempotency_release_gate: NOT_YET
+  required_first:
+    - "Patch RC runtime/input contract for reproducible OHLCV and deterministic six-component score computation without same-day V3.4 derived inputs."
+    - "Formalize canonical daily stock-universe routing."
+    - "Formalize broker/account P0 readback or accepted derivation provenance."
+    - "Run a fresh independent shadow on a future trading day before reading that day's V3.4 control."
+  after_independent_shadow_pass:
     - controlled_persistence_idempotency_readback
     - rollback_verification
     - installed_runtime_validation_when_available
-    - one_or_two_additional_shadow_days_preferred_for_different_market_conditions
-  active_promotion_requires_explicit_decision: true
 
 post_shadow_if_fail:
   status: RC1_BLOCKED
   action:
     - keep_V3_4_ACTIVE
-    - log_regression_or_input_contract_failure
+    - log_input_contract_failure
     - repair_input_contract_or_candidate_runtime
-    - obtain_same_day_production_control_for_comparison
-    - rerun_only_the_relevant_failed_gates
+    - run_fresh_independent_shadow_before_next_control_read
+    - rerun_only_relevant_failed_gates
