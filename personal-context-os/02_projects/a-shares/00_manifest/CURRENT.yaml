@@ -44,7 +44,7 @@ current_state:
   latest_trade_delta: ../07_trading_journal/2026-08-28-cases.md
   rc_shadow_prior_state_as_of: 2026-08-31
   rc_shadow_prior_state: ../11_evals/monday-2026-08-31-v4-validation.md
-  note: "Monday validation created a qualified shadow/test state but did not promote it into authoritative V4 Current State. RC1 2026-09-01 uses the Monday validation state only as prior context and rebuilds current truth from 09/01 evidence."
+  note: "Monday validation created a qualified shadow/test state but did not promote it into authoritative V4 Current State. The 2026-09-01 RC1 result is frozen under evals only and is not authoritative production state."
 
 validation:
   friday_fixture: ../11_evals/friday-2026-08-28.yaml
@@ -58,7 +58,13 @@ validation:
   monday_P0_reconciliation: PASS_WITH_SOURCE_CONFLICT_WARNING
   rc1_promotion_status: PROMOTED
   rc1_first_shadow_eval: ../11_evals/rc1-2026-09-01-independent-shadow.yaml
-  rc1_first_shadow_status: WAITING_FOR_CLOSE_CONFIRMED_DATA
+  rc1_first_shadow_freeze: ../11_evals/rc1-2026-09-01-shadow-freeze.md
+  rc1_first_shadow_status: RC1_BLOCKED_INPUT_CONTRACT_CONTROL_WAITING
+  rc1_first_shadow_canonical_state: "MS-20260901-RC1-SHADOW-FROZEN | PENDING | R=N/A | A=N/A | D=N/A"
+  rc1_first_shadow_internal_state_reuse: PASS
+  rc1_first_shadow_input_isolation: PASS
+  rc1_first_shadow_independent_score_reconstruction: FAIL_INPUT_CONTRACT
+  rc1_first_shadow_control_comparison: WAITING_FOR_V3_4_2026_09_01_PRODUCTION_RESULT
   installed_skill_runtime: NOT_RUN
   experience_observation_log: ../11_evals/experience-observation-log.md
   experience_pool_validation: PROSPECTIVE_LIGHTWEIGHT
@@ -81,6 +87,12 @@ validation:
     - persistence_idempotency_readback_pass
     - rollback_verified
     - installed_runtime_validation_when_available
+
+  rc1_repair_queue:
+    - "Fix/replace stale 2026-09-01 Shanghai Index raw screenshot or formally redesign/validate an allowed current-index evidence fallback without weakening the date gate."
+    - "Make six-component index-score inputs independently reproducible inside RC runtime without reading same-day V3.4 derived scores."
+    - "Resolve broker/account holdings readback contract for current P0 quantities."
+    - "Run normal 2026-09-01 V3.4 production control, then compare against the already frozen RC1 result."
 
 persistence:
   production_sheet_id: 1iuOiTFaEMBtlsgJewhT5qO1YhcufUO-qdInY0HO01xE
