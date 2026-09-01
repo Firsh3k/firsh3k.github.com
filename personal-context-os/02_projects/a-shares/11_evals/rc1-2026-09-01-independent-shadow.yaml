@@ -1,6 +1,6 @@
 eval_id: rc1-2026-09-01-independent-shadow
 version: 1
-status: WAITING_FOR_CLOSE_CONFIRMED_DATA
+status: RC1_BLOCKED_INPUT_CONTRACT_CONTROL_WAITING
 candidate:
   skill: review-a-shares
   version: 4.0-RC1
@@ -8,6 +8,7 @@ candidate:
 production_control:
   version: 2026.08.25-v3.4
   status: ACTIVE
+  same_day_result_status: NOT_YET_AVAILABLE
 run_date: 2026-09-01
 mode: READ_ONLY_INDEPENDENT_SHADOW
 production_write_by_rc1: false
@@ -36,6 +37,8 @@ input_isolation:
     - same-day V3.4 R/A/D result as an input
     - same-day V3.4 Stock Review classifications as an input
     - same-day V3.4 Final3 / Daily Review conclusions as an input
+  isolation_result: PASS
+  freeze_record: rc1-2026-09-01-shadow-freeze.md
   conflict_rule: "If a same-day production-derived result is encountered early, do not use it as evidence; record contamination risk and re-run from isolated inputs if material."
 
 execution_order:
@@ -47,6 +50,50 @@ execution_order:
   - run_or_read_v3_4_production_control
   - compare_rc1_vs_v3_4
   - record_differences_and_regressions
+
+independent_shadow_result:
+  canonical_state_id: MS-20260901-RC1-SHADOW-FROZEN
+  formal_market_gate: PENDING
+  operational_lean: "🟠 High-Volatility Rotation / breadth-positive but index-divergent"
+  R: N/A
+  A: N/A
+  D: N/A
+  default_new_risk: 0%
+  independent_raw_input_execution: FAIL_INPUT_CONTRACT
+  same_day_state_reuse: PASS
+  data_gap_discipline: PASS
+  no_production_write: PASS
+  final3_not_buy_list: PASS
+  formal_new_executable_candidates: 0
+
+blocking_findings:
+  - "The only Shanghai Index screenshot in the 20260901 raw market folder is stale: image-internal date=2026-08-31 and close=3986.30. It fails the same-day identity/date hard gate."
+  - "The isolated raw package/runtime did not provide enough independently auditable MACD/KDJ/BOLL plus weekly/monthly inputs to recompute every six-component anchor technical score without relying on same-day V3.4 derived results."
+  - "Current holdings can be derived from prior state plus visible trade markers, but broker/account readback was not independently located; derived quantities must remain pending confirmation."
+
+same_day_raw_trade_markers:
+  - "佳禾智能: 买入 11.900 × 100"
+  - "长江通信: 买入 49.304 × 1000; 卖出 51.250 × 100"
+
+stock_package_audit:
+  qualified_current_packages:
+    - 飞荣达
+    - 拓斯达
+    - 长江通信
+    - 佳禾智能
+    - 乐心医疗
+    - 银之杰
+  data_gaps:
+    - 博济医药
+    - 中巨芯-U
+  note: "银之杰 current images were uploaded 2026-09-01 but parent folder is misnamed 20260831; image-internal date controls qualification."
+
+control_comparison:
+  status: WAITING_FOR_V3_4_2026_09_01_PRODUCTION_RESULT
+  evidence:
+    - "A股复盘总控台 metadata has no 2026-09-01 date sheet at comparison time."
+    - "Independent A股市场雷达与股票收集器 / 13_市场复盘日报 has no 2026-09-01 record at comparison time."
+  rule: "Do not manufacture a control result. Continue comparison after normal V3.4 production run is available; do not rerun the frozen RC1 phase unless input-contract repair is explicitly being retested."
 
 must_verify:
   - identity_date_formula_audit_before_index_scores
@@ -85,6 +132,7 @@ fail_conditions:
   - confirmed_trade_or_holding_state_is_wrong
   - critical_V3_4_rule_is_lost_or_bypassed
   - RC1_writes_production_during_read_only_shadow
+  - independent_raw_input_execution_cannot_reconstruct_required_canonical_scores
 
 pass_criteria:
   - independent_raw_input_execution_pass
@@ -107,6 +155,7 @@ post_shadow_if_fail:
   status: RC1_BLOCKED
   action:
     - keep_V3_4_ACTIVE
-    - log_regression
-    - patch_RC_candidate
-    - rerun_relevant_evals
+    - log_regression_or_input_contract_failure
+    - repair_input_contract_or_candidate_runtime
+    - obtain_same_day_production_control_for_comparison
+    - rerun_only_the_relevant_failed_gates
