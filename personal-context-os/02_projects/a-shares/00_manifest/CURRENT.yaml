@@ -59,12 +59,20 @@ validation:
   rc1_promotion_status: PROMOTED
   rc1_first_shadow_eval: ../11_evals/rc1-2026-09-01-independent-shadow.yaml
   rc1_first_shadow_freeze: ../11_evals/rc1-2026-09-01-shadow-freeze.md
-  rc1_first_shadow_status: RC1_BLOCKED_INPUT_CONTRACT_CONTROL_WAITING
+  rc1_first_shadow_result: ../11_evals/rc1-2026-09-01-independent-shadow-result.md
+  rc1_first_shadow_status: RC1_BLOCKED_INPUT_CONTRACT
   rc1_first_shadow_canonical_state: "MS-20260901-RC1-SHADOW-FROZEN | PENDING | R=N/A | A=N/A | D=N/A"
+  rc1_first_shadow_control_state: "MS-20260901-CLOSE-V3.4 | 🟠数据降级/执行按🔴防守 | R=N/A | A=+16.7 | D=N/A"
   rc1_first_shadow_internal_state_reuse: PASS
   rc1_first_shadow_input_isolation: PASS
+  rc1_first_shadow_decision_semantic_regression: PASS
+  rc1_first_shadow_final3_exact_match: PASS
+  rc1_first_shadow_transactions: PASS_EXACT
+  rc1_first_shadow_P0_quantities: PASS_WITH_PROVENANCE_WARNING
+  rc1_first_shadow_data_gap_discipline: PASS
   rc1_first_shadow_independent_score_reconstruction: FAIL_INPUT_CONTRACT
-  rc1_first_shadow_control_comparison: WAITING_FOR_V3_4_2026_09_01_PRODUCTION_RESULT
+  rc1_first_shadow_control_comparison: COMPLETE_FAIL_INPUT_CONTRACT
+  rc1_active_promotion_eligibility: BLOCKED
   installed_skill_runtime: NOT_RUN
   experience_observation_log: ../11_evals/experience-observation-log.md
   experience_pool_validation: PROSPECTIVE_LIGHTWEIGHT
@@ -89,10 +97,12 @@ validation:
     - installed_runtime_validation_when_available
 
   rc1_repair_queue:
-    - "Fix/replace stale 2026-09-01 Shanghai Index raw screenshot or formally redesign/validate an allowed current-index evidence fallback without weakening the date gate."
-    - "Make six-component index-score inputs independently reproducible inside RC runtime without reading same-day V3.4 derived scores."
-    - "Resolve broker/account holdings readback contract for current P0 quantities."
-    - "Run normal 2026-09-01 V3.4 production control, then compare against the already frozen RC1 result."
+    - "Expose a self-contained reproducible 330-day OHLCV pipeline to RC runtime and deterministically compute SMA/MACD/KDJ/BOLL/weekly/monthly six-component scores without same-day V3.4 derived outputs."
+    - "Keep the stale-current-day screenshot date gate: public OHLCV may support reproducible scoring but must not silently turn a stale screenshot into qualified primary chart evidence."
+    - "Formalize a canonical daily stock-universe routing contract; valid image-package discovery alone must not automatically add a stock to the formal daily universe."
+    - "Formalize broker/account P0 readback or an explicit accepted derivation-provenance rule for prior position + confirmed same-day transactions."
+    - "Run a fresh independent shadow on the next suitable trading day before reading that day's V3.4 production conclusions."
+    - "Only after independent raw-input shadow PASS, proceed to controlled persistence/idempotency/read-back and rollback validation."
 
 persistence:
   production_sheet_id: 1iuOiTFaEMBtlsgJewhT5qO1YhcufUO-qdInY0HO01xE
